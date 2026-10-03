@@ -1,113 +1,16 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GitHub Project Command Center</title>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAZACI Project OS — Phase 1</title>
 <style>
-:root{--bg:#030807;--panel:#07110f;--line:#1d4;--text:#d9ffe8;--muted:#77aa8a;--hot:#4cff88}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:
-radial-gradient(circle at 50% -20%,#123829 0,transparent 42%),
-linear-gradient(#020605,#06100d);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-header{position:sticky;top:0;z-index:4;padding:16px;background:#030807eF;border-bottom:1px solid #174b32;backdrop-filter:blur(10px)}
-.wrap{max-width:1150px;margin:auto}
-h1{font-size:clamp(21px,5vw,34px);margin:0;color:#7dffa8;text-shadow:0 0 18px #28ff7860}
-.sub{color:var(--muted);font-size:12px;margin-top:5px}
-.controls{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:14px}
-input,button{font:inherit;border-radius:9px;border:1px solid #287a50;background:#06140f;color:#dfffea;padding:11px}
-button{cursor:pointer;font-weight:800}
-button:hover{background:#103a27;border-color:#4cff88}
-.status{padding:14px 0;color:#8bc8a0;font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px;padding-bottom:50px}
-.card{background:linear-gradient(145deg,#091712,#040a08);border:1px solid #1d5c3c;border-radius:14px;padding:16px;box-shadow:inset 0 0 25px #00ff4410,0 8px 30px #0008}
-.folder{font-size:31px}.name{font-size:18px;font-weight:900;margin:7px 0;color:#caffd8;overflow-wrap:anywhere}
-.desc{height:42px;color:#82ad90;font-size:12px;overflow:hidden}
-.meta{font-size:11px;color:#4f8e68;margin:12px 0}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.actions a{text-decoration:none;text-align:center;border:1px solid #26764c;border-radius:8px;padding:9px;color:#aaffc5;background:#07140f;font-size:12px;font-weight:800}
-.actions a:hover{background:#123923}
-.empty{grid-column:1/-1;padding:35px;border:1px dashed #285f43;border-radius:14px;text-align:center;color:#75a989}
-footer{color:#416f50;text-align:center;padding:20px;font-size:11px}
-@media(max-width:520px){header{padding:12px}.controls{grid-template-columns:1fr}.wrap{padding:0 12px}.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header>
- <div class="wrap">
-  <h1>◈ GITHUB PROJECT COMMAND CENTER</h1>
-  <div class="sub">ACCOUNT: <b id="account">razaci</b> · public repositories · click to launch</div>
-  <div class="controls">
-   <input id="search" placeholder="Search projects…" autocomplete="off">
-   <button id="reload">↻ REFRESH GITHUB</button>
-  </div>
- </div>
-</header>
-
-<main class="wrap">
- <div class="status" id="status">Contacting GitHub…</div>
- <section class="grid" id="grid"></section>
-</main>
-<footer>GitHub Project Command Center · single-file launcher</footer>
-
+*{box-sizing:border-box}body{margin:0;background:#020706;color:#dfffea;font-family:ui-monospace,monospace}header{position:sticky;top:0;background:#03100ddf;backdrop-filter:blur(10px);padding:15px;border-bottom:1px solid #185f3b;z-index:5}.wrap{max-width:1100px;margin:auto;padding:0 12px}h1{margin:0;color:#64ff98;font-size:clamp(21px,5vw,34px)}small,.muted{color:#6ba982}.controls{display:flex;gap:8px;margin-top:12px}input,button,a.btn{background:#06140f;color:#dfffea;border:1px solid #287a50;border-radius:9px;padding:10px;font:inherit}input{flex:1}button,a{cursor:pointer}.status{padding:15px 0;color:#86c99c}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}.card{border:1px solid #1e6040;border-radius:14px;padding:15px;background:linear-gradient(145deg,#091712,#040907)}.folder{font-size:30px}.name{font-weight:900;font-size:18px;margin:5px 0;overflow-wrap:anywhere}.desc{height:38px;font-size:12px;color:#79a88a;overflow:hidden}.badge{display:inline-block;margin:10px 0 7px;padding:3px 7px;border:1px solid #287a50;border-radius:99px;color:#65ff9a;font-size:10px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.actions a{text-decoration:none;text-align:center;color:#baffcf;border:1px solid #287a50;padding:9px;border-radius:8px;font-size:11px;font-weight:bold}.explorer{display:none;margin:18px 0 50px;border:1px solid #2a8455;border-radius:14px;overflow:hidden}.explorer.on{display:block}.exhead{display:flex;align-items:center;gap:8px;background:#092016;padding:12px}.exhead b{flex:1}.exbody{padding:12px}.path{color:#7fc99a;font-size:12px;margin-bottom:10px;overflow-wrap:anywhere}.toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.toolbar a,.toolbar button{text-decoration:none;color:#caffd8;background:#07140f;border:1px solid #287a50;border-radius:8px;padding:8px;font:inherit;font-size:11px}.row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:10px;border-bottom:1px solid #123a26;cursor:pointer}.row:hover{background:#0a1e15}.type{font-size:10px;color:#5d9873}@media(max-width:520px){.controls{flex-direction:column}.grid{grid-template-columns:1fr}}</style></head>
+<body><header><div class="wrap"><h1>◈ RAZACI // PROJECT OS</h1><small>PHASE 1 · repository explorer + Pages-aware launcher</small><div class="controls"><input id="q" placeholder="Search projects…"><button id="refresh">↻ REFRESH</button></div></div></header>
+<main class="wrap"><div id="status" class="status">Connecting to GitHub…</div><section id="grid" class="grid"></section>
+<section id="explorer" class="explorer"><div class="exhead"><span>▣</span><b id="title"></b><button id="close">✕</button></div><div class="exbody"><div id="path" class="path"></div><div id="toolbar" class="toolbar"></div><div id="files"></div></div></section></main>
 <script>
-const USER="razaci";
-let repos=[];
-const $=s=>document.querySelector(s);
-const grid=$("#grid"), status=$("#status"), search=$("#search");
-
-function esc(v=""){return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function pageURL(r){
-  // If GitHub reports a homepage, prefer it. Otherwise offer the common GitHub Pages address.
-  if(r.homepage && /^https?:\/\//i.test(r.homepage)) return r.homepage;
-  return `https://${USER}.github.io/${encodeURIComponent(r.name)}/`;
-}
-function render(){
- const q=search.value.trim().toLowerCase();
- const list=repos.filter(r=>(r.name+" "+(r.description||"")).toLowerCase().includes(q));
- grid.innerHTML="";
- if(!list.length){
-   grid.innerHTML='<div class="empty">No projects match this search.</div>';
-   return;
- }
- for(const r of list){
-   const card=document.createElement("article");
-   card.className="card";
-   card.innerHTML=`
-    <div class="folder">📁</div>
-    <div class="name">${esc(r.name)}</div>
-    <div class="desc">${esc(r.description||"GitHub project")}</div>
-    <div class="meta">${r.language?esc(r.language)+" · ":""}★ ${r.stargazers_count||0} · updated ${new Date(r.updated_at).toLocaleDateString()}</div>
-    <div class="actions">
-      <a href="${esc(pageURL(r))}" target="_blank" rel="noopener">▶ OPEN SITE</a>
-      <a href="${esc(r.html_url)}" target="_blank" rel="noopener">⌘ FILES</a>
-    </div>`;
-   grid.appendChild(card);
- }
-}
-async function load(){
- status.textContent="Scanning public repositories for @"+USER+"…";
- grid.innerHTML="";
- try{
-   let all=[];
-   for(let page=1;page<=10;page++){
-     const res=await fetch(`https://api.github.com/users/${encodeURIComponent(USER)}/repos?per_page=100&page=${page}&sort=updated`,{headers:{Accept:"application/vnd.github+json"}});
-     if(!res.ok) throw new Error("GitHub returned "+res.status);
-     const batch=await res.json();
-     all=all.concat(batch);
-     if(batch.length<100) break;
-   }
-   repos=all.filter(r=>!r.fork).sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
-   status.textContent=`ONLINE · ${repos.length} public project${repos.length===1?"":"s"} loaded · newest first`;
-   render();
- }catch(e){
-   status.textContent="Could not load GitHub right now: "+e.message+". Check your internet connection and try Refresh.";
-   grid.innerHTML='<div class="empty">GitHub data unavailable. The launcher itself is working; press REFRESH GITHUB to retry.</div>';
- }
-}
-search.addEventListener("input",render);
-$("#reload").addEventListener("click",load);
-load();
-</script>
-</body>
-</html>
+const USER="razaci", $=s=>document.querySelector(s); let repos=[];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const site=r=>r.homepage&&/^https?:\/\//i.test(r.homepage)?r.homepage:`https://${USER}.github.io/${encodeURIComponent(r.name)}/`;
+async function api(url){let x=await fetch(url,{headers:{Accept:"application/vnd.github+json"}});if(!x.ok)throw Error("GitHub "+x.status);return x.json()}
+function render(){let q=$("#q").value.toLowerCase(), list=repos.filter(r=>(r.name+" "+(r.description||"")).toLowerCase().includes(q));$("#grid").innerHTML=list.map(r=>`<article class="card"><div class="folder">📁</div><div class="name">${esc(r.name)}</div><div class="desc">${esc(r.description||"GitHub project")}</div><div class="badge">${r.has_pages?"● GITHUB PAGES":"○ REPOSITORY"}</div><div class="actions">${r.has_pages?`<a href="${esc(site(r))}" target="_blank">▶ PLAY / SITE</a>`:`<a href="${esc(r.html_url)}" target="_blank">↗ GITHUB</a>`}<a href="#" data-repo="${esc(r.name)}" class="browse">▣ EXPLORE</a></div></article>`).join("")||'<div class="status">No matching projects.</div>';document.querySelectorAll(".browse").forEach(a=>a.onclick=e=>{e.preventDefault();explore(a.dataset.repo,"")})}
+async function explore(repo,path){let r=repos.find(x=>x.name===repo),ex=$("#explorer");ex.classList.add("on");$("#title").textContent="📁 "+repo;$("#path").textContent="/"+repo+(path?"/"+path:"");$("#files").innerHTML='<div class="status">Reading folder…</div>';let tools=`<a href="${r.html_url}" target="_blank">↗ GITHUB</a>`+(r.has_pages?`<a href="${site(r)}" target="_blank">▶ SITE</a>`:"")+(path?'<button id="up">← UP</button>':"");$("#toolbar").innerHTML=tools;if(path)$("#up").onclick=()=>explore(repo,path.split("/").slice(0,-1).join("/"));ex.scrollIntoView({behavior:"smooth"});try{let url=`https://api.github.com/repos/${USER}/${encodeURIComponent(repo)}/contents/${path.split("/").map(encodeURIComponent).join("/")}`,items=await api(url);if(!Array.isArray(items))items=[items];items.sort((a,b)=>(a.type==="dir"?0:1)-(b.type==="dir"?0:1)||a.name.localeCompare(b.name));$("#files").innerHTML="";items.forEach(f=>{let d=document.createElement("div");d.className="row";let icon=f.type==="dir"?"📁":/\.html?$/i.test(f.name)?"🌐":/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(f.name)?"🖼️":"📄";d.innerHTML=`<span>${icon}</span><span>${esc(f.name)}</span><span class="type">${f.type}</span>`;d.onclick=()=>f.type==="dir"?explore(repo,f.path):window.open(f.html_url,"_blank","noopener");$("#files").appendChild(d)})}catch(e){$("#files").innerHTML=`<div class="status">Unable to read folder: ${esc(e.message)}</div>`}}
+async function load(){try{$("#status").textContent="Scanning @"+USER+"…";let all=[];for(let p=1;p<=10;p++){let b=await api(`https://api.github.com/users/${USER}/repos?per_page=100&page=${p}&sort=updated`);all.push(...b);if(b.length<100)break}repos=all.filter(r=>!r.fork);$("#status").textContent=`ONLINE · ${repos.length} public projects · newest first`;render()}catch(e){$("#status").textContent="Could not contact GitHub: "+e.message}}
+$("#q").oninput=render;$("#refresh").onclick=load;$("#close").onclick=()=>$("#explorer").classList.remove("on");load();
+</script></body></html>
