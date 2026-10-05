@@ -17,8 +17,14 @@ button,input,select,a{font:inherit;color:#caffd9;background:#07150f;border:1px s
 .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:13px}.infoBox{border:1px solid #205c3c;border-radius:9px;padding:12px;background:#06120e}.infoBox b{color:#72ffa3}.big{font-size:22px}.log{padding:10px}.log div{padding:6px;border-bottom:1px solid #102a1d;color:#78a98a}
 @media(max-width:650px){#quickbar{padding:6px 8px}#quickbar button{font-size:10px}#sys{display:none}#brand{font-size:10px}.window{left:2vw!important;top:60px!important;width:96vw!important;height:calc(100vh - 107px)!important}.titlebar{cursor:default}#icons{grid-template-columns:repeat(auto-fill,82px)}.icon{width:80px}.cards,.infoGrid{grid-template-columns:1fr}.optional{display:none}}
 </style></head><body>
-<div id="installHelp" style="position:fixed;inset:0;z-index:9000;background:#000b;display:none;place-items:center;padding:18px"><div style="width:min(520px,96vw);background:#04100d;border:1px solid #42b870;border-radius:14px;padding:18px"><div style="display:flex;align-items:center;gap:8px"><b style="color:#79ffa8;font-size:18px;flex:1">📲 SAVE PROJECT OS</b><button id="installClose">✕</button></div><div id="installText" style="line-height:1.65;margin-top:14px"></div><button id="copyPageLink" style="width:100%;margin-top:12px">⧉ COPY THIS PAGE LINK</button></div></div><div id="boot"><div class="bootLogo">RAZACI // PROJECT OS</div><div id="boottext"></div><div class="bootbar"><div id="bootfill" class="bootfill"></div></div></div>
-<div id="top"><button id="start">◈</button><div id="brand">RAZACI // PROJECT OS <span class="muted">PHASE 10</span></div><button id="refresh">↻</button><button id="installBtn">📲 INSTALL / SAVE</button><div id="sys">INITIALIZING…</div><button id="notifyBtn" title="Notifications">◉ <span id="notifyCount">0</span></button><div id="clock"></div></div>
+
+<div id="saveHelp" style="position:fixed;inset:0;z-index:9999;background:#000b;display:none;place-items:center;padding:18px">
+<div style="width:min(500px,95vw);background:#04100d;border:1px solid #42b870;border-radius:14px;padding:18px;box-shadow:0 20px 70px #000">
+<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;color:#75ffa4;font-size:18px">📲 SAVE THIS PAGE</b><button id="saveHelpClose">✕</button></div>
+<div id="saveHelpText" style="line-height:1.65;margin-top:14px"></div>
+</div></div>
+<div id="boot"><div class="bootLogo">RAZACI // PROJECT OS</div><div id="boottext"></div><div class="bootbar"><div id="bootfill" class="bootfill"></div></div></div>
+<div id="top"><button id="start">◈</button><div id="brand">RAZACI // PROJECT OS <span class="muted">PHASE 10</span></div><button id="refresh">↻</button><button id="savePageBtn">📲 SAVE PAGE</button><div id="sys">INITIALIZING…</div><button id="notifyBtn" title="Notifications">◉ <span id="notifyCount">0</span></button><div id="clock"></div></div>
 <div id="notify"><div class="nhead"><b>NOTIFICATION CENTER</b><button onclick="clearNotices()">CLEAR</button></div><div id="notices"></div></div>
 <div id="desktop">
 <div id="quickbar"><button onclick="openLibrary()">📚 LIBRARY</button><button onclick="showFavorites()">★ FAVORITES</button><button onclick="showRecent()">◷ RECENT</button><button onclick="openInfo()">◉ SYSTEM</button><button id="sortBtn" onclick="cycleSort()">⇅ A–Z</button><button id="densityBtn" onclick="cycleDensity()">▦ NORMAL</button><button onclick="openWorkspace()">▤ WORKSPACE</button><button onclick="openDashboard()">▥ DASHBOARD</button></div>
@@ -74,7 +80,22 @@ function applyDensity(){let d=$("#desktop");d.classList.remove("compact","large"
 function cycleDensity(){density=density==="normal"?"compact":density==="compact"?"large":"normal";write("razaciOS.density",density);applyDensity()}
 function cycleSort(){sortMode=sortMode==="az"?"updated":sortMode==="updated"?"favorites":"az";write("razaciOS.sort",sortMode);$("#sortBtn").textContent=sortMode==="az"?"⇅ A–Z":sortMode==="updated"?"⇅ UPDATED":"⇅ FAVORITES";desktop()}
 function log(s){let l=$("#log");l.innerHTML=`<div>${new Date().toLocaleTimeString()} · ${esc(s)}</div>`+l.innerHTML}
-async function get(u){let r=await fetch(u,{headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw Error("GitHub "+r.status);return r.json()}
+async function get(u){
+ const key="razaciOS.cache."+u;
+ try{
+   let r=await fetch(u,{headers:{Accept:"application/vnd.github+json"}});
+   if(!r.ok)throw Error("GitHub "+r.status);
+   let data=await r.json();
+   try{localStorage.setItem(key,JSON.stringify({time:Date.now(),data}))}catch{}
+   return data;
+ }catch(err){
+   try{
+     let c=JSON.parse(localStorage.getItem(key)||"null");
+     if(c&&c.data){$("#sys").textContent="OFFLINE/CACHED GITHUB DATA";return c.data}
+   }catch{}
+   throw err;
+ }
+}
 async function detect(r){r.launch=(r.homepage&&/^https?:\/\//i.test(r.homepage))?r.homepage:null;try{let x=await get(`${A}/repos/${U}/${encodeURIComponent(r.name)}/contents/index.html`);if(x.type==="file"&&!r.launch)r.launch=`https://${U}.github.io/${encodeURIComponent(r.name)}/`}catch{}}
 function desktop(){let list=[...repos];if(sortMode==="az")list.sort((a,b)=>a.name.localeCompare(b.name));else if(sortMode==="updated")list.sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));else list.sort((a,b)=>(fav.includes(b.name)-fav.includes(a.name))||a.name.localeCompare(b.name));$("#sortBtn").textContent=sortMode==="az"?"⇅ A–Z":sortMode==="updated"?"⇅ UPDATED":"⇅ FAVORITES";$("#icons").innerHTML=list.map(r=>`<div class="icon" data-i="${repos.indexOf(r)}" ondblclick="primary(${repos.indexOf(r)})" onclick="selectIcon(this);inspectProject(${repos.indexOf(r)})" oncontextmenu="projectMenu(event,${repos.indexOf(r)})"><div class="ico">${r.launch?"🎮":"📁"}</div><div class="iname">${fav.includes(r.name)?'<span class="star">★</span> ':""}${esc(r.name)}</div></div>`).join("");stats()}
 function selectIcon(e){document.querySelectorAll(".icon").forEach(x=>x.classList.remove("sel"));e.classList.add("sel")}function primary(i){repos[i].launch?play(i):browse(i)}
@@ -100,11 +121,39 @@ function openLibrary(){focusWin("library");cards();hideMenu()}function showFavor
 function play(i){let r=repos[i];if(!r.launch)return;recent=[r.name,...recent.filter(x=>x!==r.name)].slice(0,12);write(RK,recent);$("#ptitle").textContent=r.name;$("#external").href=r.launch;$("#frame").src=r.launch;focusWin("player");cards();stats();log("Launched project: "+r.name);notice("Launched "+r.name)}
 function reloadPlayer(){let f=$("#frame");f.src=f.src}function closePlayer(){$("#frame").src="about:blank";closeWin("player")}function fullPlayer(){document.fullscreenElement?document.exitFullscreen():$("#playerscreen").requestFullscreen?.()}
 async function browse(i){repo=repos[i];path="";$("#etitle").textContent=repo.name+" // FILES";focusWin("explorer");log("Opened repository: "+repo.name);dir("")}
-async function dir(p){path=p;$("#crumb").textContent="/"+p;$("#files").innerHTML='<div class="row">Reading repository…</div>';try{let u=`${A}/repos/${U}/${encodeURIComponent(repo.name)}/contents/${p.split("/").map(encodeURIComponent).join("/")}`,a=await get(u);a=Array.isArray(a)?a:[a];a.sort((x,y)=>x.type===y.type?x.name.localeCompare(y.name):(x.type==="dir"?-1:1));let h=p?`<div class="row" onclick="up()">↩ <span>.. BACK</span><span></span></div>`:"";h+=a.map(x=>`<div class="row" onclick='item(${JSON.stringify(x.type)},${JSON.stringify(x.path)},${JSON.stringify(x.html_url||"")})'><span>${x.type==="dir"?"📁":"📄"}</span><span>${esc(x.name)}</span><small>${x.type==="dir"?"FOLDER":"FILE"}</small></div>`).join("");$("#files").innerHTML=h}catch(e){$("#files").innerHTML='<div class=row>Error: '+esc(e.message)+'</div>'}}
+async function dir(p){path=p;$("#crumb").textContent="/"+p;$("#files").innerHTML='<div class="row">Reading repository…</div>';try{let u=`${A}/repos/${U}/${encodeURIComponent(repo.name)}/contents/${p.split("/").map(encodeURIComponent).join("/")}`,a=await get(u);a=Array.isArray(a)?a:[a];a.sort((x,y)=>x.type===y.type?x.name.localeCompare(y.name):(x.type==="dir"?-1:1));let h=p?`<div class="row" onclick="up()">↩ <span>.. BACK</span><span></span></div>`:"";h+=a.map(x=>`<div class="row" onclick='item(${JSON.stringify(x.type)},${JSON.stringify(x.path)},${JSON.stringify(x.html_url||"")})'><span>${x.type==="dir"?"📁":"📄"}</span><span>${esc(x.name)}</span><small>${x.type==="dir"?"FOLDER":"FILE"}</small></div>`).join("");$("#files").innerHTML=h}catch(e){$("#files").innerHTML='<div class="row"><span>⚠</span><span>GitHub could not load this folder right now.</span><span></span></div><div class="row" onclick="window.open(repo.html_url,\'_blank\',\'noopener\')"><span>↗</span><span>OPEN REPOSITORY ON GITHUB</span><span>WEB</span></div>'}}
 function up(){let a=path.split("/");a.pop();dir(a.join("/"))}function item(t,p,u){t==="dir"?dir(p):window.open(u,"_blank","noopener")}
 function stats(){if($("#dashboard").dataset.open==="1")dashboard();$("#repoCount").textContent=repos.length;$("#webCount").textContent=repos.filter(r=>r.launch).length;$("#localCount").textContent=fav.length+" / "+recent.length}
 function drag(w){let bar=w.querySelector(".titlebar"),sx,sy,sl,st,on=false;bar.onpointerdown=e=>{if(innerWidth<650||e.target.closest("button,a"))return;on=true;sx=e.clientX;sy=e.clientY;sl=w.offsetLeft;st=w.offsetTop;bar.setPointerCapture(e.pointerId);focusWin(w.id)};bar.onpointermove=e=>{if(on){w.style.left=Math.max(0,sl+e.clientX-sx)+"px";w.style.top=Math.max(55,st+e.clientY-sy)+"px"}};bar.onpointerup=()=>on=false;w.onpointerdown=()=>w.style.zIndex=++z}["library","explorer","player","info","inspect","workspace","dashboard"].forEach(id=>drag($("#"+id)));
-async function load(){hideMenu();try{$("#sys").textContent="SCANNING GITHUB…";log("GitHub scan started");let all=[];for(let p=1;p<=10;p++){let b=await get(`${A}/users/${U}/repos?per_page=100&page=${p}&sort=updated`);all.push(...b);if(b.length<100)break}repos=all.filter(r=>!r.fork);desktop();cards();$("#sys").textContent=`${repos.length} PROJECTS · VERIFYING WEB APPS`;for(let i=0;i<repos.length;i+=5){await Promise.all(repos.slice(i,i+5).map(detect));desktop();cards()}$("#sys").textContent=`PHASE 10 ONLINE · ${repos.length} PROJECTS · ${repos.filter(r=>r.launch).length} WEB`;stats();fillWorkspaceList();dashboard();log("GitHub scan complete");notice(`GitHub synchronized: ${repos.length} projects, ${repos.filter(r=>r.launch).length} web launchers`)}catch(e){$("#sys").textContent="GITHUB ERROR · "+e.message;log("GitHub error: "+e.message)}}
+async function load(){
+ hideMenu();
+ try{
+   $("#sys").textContent="LOADING GITHUB PROJECTS…";
+   log("GitHub scan started");
+   let all=[];
+   // One 100-repository request is enough for this account in normal use and avoids
+   // repeatedly walking pages when GitHub rate limits unauthenticated browser requests.
+   let b=await get(`${A}/users/${U}/repos?per_page=100&sort=updated`);
+   all.push(...b);
+   repos=all.filter(r=>!r.fork);
+   desktop();cards();stats();fillWorkspaceList();dashboard();
+   $("#sys").textContent=`ONLINE · ${repos.length} PROJECTS · CHECKING WEB LINKS`;
+   // Do not block the folder list while launch detection runs.
+   // Check slowly and stop cleanly if GitHub begins rejecting extra requests.
+   for(let i=0;i<repos.length;i++){
+     try{await detect(repos[i])}catch{}
+     if(i%4===3){desktop();cards();await new Promise(r=>setTimeout(r,120))}
+   }
+   desktop();cards();stats();fillWorkspaceList();dashboard();
+   $("#sys").textContent=`ONLINE · ${repos.length} PROJECTS · ${repos.filter(r=>r.launch).length} WEB`;
+   log("GitHub scan complete");
+ }catch(e){
+   $("#sys").textContent="GITHUB CONNECTION ERROR · PRESS ↻ TO RETRY";
+   log("GitHub error: "+e.message);
+   // Keep the OS usable instead of replacing the desktop with a black/error state.
+   desktop();cards();stats();fillWorkspaceList();dashboard();
+ }
+}
 function menu(){let m=$("#menu");m.style.display=m.style.display==="block"?"none":"block"}function hideMenu(){$("#menu").style.display="none"}$("#start").onclick=menu;$("#start2").onclick=menu;$("#refresh").onclick=load;$("#notifyBtn").onclick=e=>{e.stopPropagation();let n=$("#notify");n.style.display=n.style.display==="block"?"none":"block"};$("#q").oninput=cards;$("#view").onchange=cards;$("#wsrepo").onchange=e=>{if(e.target.value!=="")workspaceSelect(+e.target.value)};
 $("#palq").oninput=()=>{palIndex=0;palDraw()};$("#palq").onkeydown=e=>{let n=window._pal?.length||0;if(e.key==="ArrowDown"){e.preventDefault();palIndex=Math.min(n-1,palIndex+1);palDraw()}if(e.key==="ArrowUp"){e.preventDefault();palIndex=Math.max(0,palIndex-1);palDraw()}if(e.key==="Enter"){e.preventDefault();palRun(palIndex)}if(e.key==="Escape")palette(false)};
 document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();palette(true)}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="w"){e.preventDefault();openWorkspace()}else if(e.key==="Escape"){hideCtx();if($("#palette").style.display==="flex")palette(false)}});
@@ -113,6 +162,17 @@ $("#desktop").addEventListener("contextmenu",e=>{if(!e.target.closest(".icon"))e
 setInterval(()=>$("#clock").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),1000);
 renderNotices();applyDensity();document.addEventListener("click",e=>{if(!e.target.closest("#notify")&&!e.target.closest("#notifyBtn"))$("#notify").style.display="none"});
 
-let deferredInstallPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;$("#installBtn").textContent="📲 INSTALL"});window.addEventListener("appinstalled",()=>{$("#installBtn").textContent="✓ INSTALLED";deferredInstallPrompt=null});function iosDevice(){return /iphone|ipad|ipod/i.test(navigator.userAgent)||navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1}function installHelp(h){$("#installText").innerHTML=h;$("#installHelp").style.display="grid"}async function installOrSave(){if(deferredInstallPrompt){deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch{}deferredInstallPrompt=null;return}if(iosDevice())installHelp("<b>iPhone / iPad:</b><br>1. Open this page in <b>Safari</b>.<br>2. Tap the <b>Share</b> button.<br>3. Tap <b>Add to Home Screen</b>.<br>4. Tap <b>Add</b>.<br><br>That gives you a clickable Home Screen icon that returns to this page.");else installHelp("<b>Save this page:</b><br><br>Press <b>Ctrl + D</b> on Windows or <b>⌘ + D</b> on Mac to bookmark it. If your browser provides a real app-install prompt, this button will use it automatically.")}$("#installBtn").onclick=installOrSave;$("#installClose").onclick=()=>$("#installHelp").style.display="none";$("#installHelp").onclick=e=>{if(e.target===$("#installHelp"))$("#installHelp").style.display="none"};$("#copyPageLink").onclick=async()=>{let u=location.href;try{await navigator.clipboard.writeText(u);$("#copyPageLink").textContent="✓ LINK COPIED";setTimeout(()=>$("#copyPageLink").textContent="⧉ COPY THIS PAGE LINK",1200)}catch{prompt("Copy this page link:",u)}};
+function showSavePageHelp(){
+ const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||((navigator.platform==="MacIntel")&&navigator.maxTouchPoints>1);
+ const text=ios
+ ? '<b>On iPhone/iPad:</b><br>Tap the Safari <b>Share</b> button → <b>Add to Home Screen</b> → <b>Add</b>.<br><br>That creates a clickable icon that opens this exact page.'
+ : '<b>On Windows/Desktop:</b><br>Press <b>Ctrl + D</b> to bookmark this exact page.<br><br>On Mac use <b>⌘ + D</b>.';
+ document.querySelector("#saveHelpText").innerHTML=text;
+ document.querySelector("#saveHelp").style.display="grid";
+}
+document.querySelector("#savePageBtn").onclick=showSavePageHelp;
+document.querySelector("#saveHelpClose").onclick=()=>document.querySelector("#saveHelp").style.display="none";
+document.querySelector("#saveHelp").onclick=e=>{if(e.target===document.querySelector("#saveHelp"))document.querySelector("#saveHelp").style.display="none"};
+
 async function boot(){let lines=["KERNEL // HTML5 RUNTIME OK","LOCAL PROFILE // LOADED","DESKTOP // READY","GITHUB LINK // STARTING"];for(let i=0;i<lines.length;i++){await new Promise(r=>setTimeout(r,260));$("#boottext").innerHTML+=`<div class=bootline>${lines[i]}</div>`;$("#bootfill").style.width=((i+1)/lines.length*100)+"%"}await new Promise(r=>setTimeout(r,350));$("#boot").style.opacity=0;setTimeout(()=>$("#boot").remove(),500);load()}boot();
 </script></body></html>
