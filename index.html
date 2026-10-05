@@ -9,44 +9,64 @@ header{position:sticky;top:0;z-index:10;background:#030a07ed;border-bottom:1px s
 .top{height:43px;display:flex;align-items:center;gap:9px}.brand{font-weight:900;letter-spacing:.08em;color:#bfffd0;flex:1}.lamp{width:8px;height:8px;border-radius:50%;background:#62ff90;box-shadow:0 0 10px #62ff90}.wrap{max-width:1200px;margin:auto;padding:0 13px}
 .toolbar{display:flex;gap:7px;padding:0 0 9px}input,button{height:35px;border:1px solid #275b3c;border-radius:6px;background:#08110c;color:#eafff0;font:inherit;padding:0 10px}input{flex:1;min-width:120px}button{cursor:pointer}button:hover{border-color:#62d989;background:#102419}
 #count{max-width:1200px;margin:auto;padding:10px 15px 3px;color:#668b72;font-size:11px;letter-spacing:.07em}
-#grid{position:relative;z-index:1;max-width:1200px;margin:auto;padding:12px 13px 50px;display:grid;grid-template-columns:repeat(auto-fill,92px);grid-auto-rows:112px;gap:10px 13px;align-content:start}
-.card{width:92px;height:108px;border:1px solid transparent;border-radius:10px;padding:7px 4px 4px;text-align:center;cursor:default;transition:.16s ease;position:relative}.card:before{content:"";position:absolute;inset:0;border-radius:10px;opacity:0;background:linear-gradient(145deg,#65ff9218,transparent 55%);transition:.16s}.card:hover,.card.selected{background:linear-gradient(145deg,#173d2777,#07120c88);border-color:#3e8b59;box-shadow:inset 0 0 18px #5cff8610,0 7px 20px #0006}.card:hover:before,.card.selected:before{opacity:1}
-.folder{width:62px;height:46px;margin:4px auto 9px;position:relative;border:1px solid #55d87c;border-radius:5px 7px 8px 8px;background:linear-gradient(155deg,#1c6435 0%,#103e24 45%,#071b11 100%);box-shadow:inset 0 1px #a0ffbb55,inset 0 -8px 18px #0007,0 8px 18px #0009,0 0 17px #49ff7920;transform:perspective(120px) rotateX(-3deg);transition:.18s ease}.folder:before{content:"";position:absolute;left:5px;top:-9px;width:27px;height:10px;border:1px solid #55d87c;border-bottom:0;border-radius:5px 6px 0 0;background:linear-gradient(#257844,#15552f);box-shadow:inset 0 1px #b0ffc555}.folder:after{content:"◆";position:absolute;display:grid;place-items:center;left:10px;right:10px;top:8px;bottom:8px;border:1px solid #76ff9b35;border-radius:3px;background:linear-gradient(90deg,transparent,#6cff9420,transparent);color:#8affaa;font-size:11px;text-shadow:0 0 8px #5dff8c;box-shadow:inset 0 0 10px #59ff8510}.card:hover .folder,.card.selected .folder{transform:perspective(120px) rotateX(-3deg) translateY(-3px) scale(1.05);border-color:#9affb4;box-shadow:inset 0 1px #d2ffdc88,inset 0 -8px 18px #0006,0 10px 22px #000b,0 0 28px #5cff8b55}
+#grid{position:relative;z-index:1;max-width:1200px;margin:auto;padding:12px 13px 50px;display:grid;grid-template-columns:repeat(auto-fill,92px);grid-auto-rows:146px;gap:10px 13px;align-content:start}
+.card{width:92px;height:142px;border:1px solid transparent;border-radius:10px;padding:7px 4px 4px;text-align:center;cursor:default;transition:.16s ease;position:relative}.card:before{content:"";position:absolute;inset:0;border-radius:10px;opacity:0;background:linear-gradient(145deg,#65ff9218,transparent 55%);transition:.16s}.card:hover,.card.selected{background:linear-gradient(145deg,#173d2777,#07120c88);border-color:#3e8b59;box-shadow:inset 0 0 18px #5cff8610,0 7px 20px #0006}.card:hover:before,.card.selected:before{opacity:1}
+.folder{--h:135;width:62px;height:46px;margin:4px auto 9px;position:relative;border:1px solid hsl(var(--h) 70% 60%);border-radius:6px 8px 9px 9px;background:linear-gradient(155deg,hsl(var(--h) 55% 28%),hsl(var(--h) 55% 18%) 55%,#06100a);box-shadow:inset 0 1px #ffffff22,inset 0 -8px 18px #0007,0 8px 18px #0009,0 0 18px hsl(var(--h) 90% 55% / .18);transform:perspective(120px) rotateX(-3deg) rotateZ(var(--tilt,0deg));transition:.18s ease}.folder:before{content:"";position:absolute;left:5px;top:-9px;width:27px;height:10px;border:1px solid hsl(var(--h) 70% 60%);border-bottom:0;border-radius:5px 6px 0 0;background:linear-gradient(hsl(var(--h) 60% 34%),hsl(var(--h) 60% 24%))}.folder:after{content:var(--glyph,"◆");position:absolute;display:grid;place-items:center;left:9px;right:9px;top:7px;bottom:7px;border:1px solid hsl(var(--h) 80% 70% / .28);border-radius:4px;background:linear-gradient(90deg,transparent,hsl(var(--h) 90% 60% / .12),transparent);color:hsl(var(--h) 90% 78%);font-size:12px;text-shadow:0 0 8px hsl(var(--h) 90% 60%);box-shadow:inset 0 0 10px hsl(var(--h) 90% 55% / .08)}.card:hover .folder,.card.selected .folder{transform:perspective(120px) rotateX(-3deg) rotateZ(0deg) translateY(-4px) scale(1.06);box-shadow:inset 0 1px #ffffff33,inset 0 -8px 18px #0006,0 10px 22px #000b,0 0 28px hsl(var(--h) 90% 55% / .38)}
 .name{font-size:11px;line-height:1.15;height:39px;overflow:hidden;overflow-wrap:anywhere;text-shadow:0 1px 2px #000}
-.actions{display:none}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px;opacity:.82}
+.actions a{display:flex;align-items:center;justify-content:center;min-height:24px;padding:3px 4px;border:1px solid #28553a;border-radius:5px;background:#08110c;color:#cffff0;text-decoration:none;font-size:8px;font-weight:800;letter-spacing:.02em;transition:.15s ease}
+.actions a:hover{background:#173722;border-color:#5ee58b;color:white;box-shadow:0 0 12px #4cff7b22}
+.actions .play{grid-column:1/-1;background:linear-gradient(90deg,#12351f,#194d2b,#12351f);border-color:#3c965c;color:#9effb7}
 #context{display:none;position:fixed;z-index:50;width:190px;padding:5px;background:#07110cfa;border:1px solid #397f50;border-radius:7px;box-shadow:0 15px 40px #000}
 #context a{display:block;color:#eafff0;text-decoration:none;padding:9px;border-radius:5px;font-size:12px}#context a:hover{background:#173722}
 #hint{position:fixed;bottom:8px;right:9px;z-index:4;background:#04100bdb;border:1px solid #214a32;border-radius:6px;padding:6px 9px;color:#668c73;font-size:10px}
 #help{display:none;position:fixed;inset:0;z-index:60;background:#000b;place-items:center;padding:20px}.box{width:min(480px,95vw);background:#09130e;border:1px solid #3b8055;border-radius:10px;padding:18px;line-height:1.6}.box b{color:#87ffab}.box button{width:100%;margin-top:10px}
-@media(max-width:600px){#grid{grid-template-columns:repeat(auto-fill,78px);grid-auto-rows:102px;gap:7px}.card{width:78px;height:98px}.folder{width:52px;height:39px}.name{font-size:10px}.toolbar{padding-bottom:8px}.top{height:39px}.brand{font-size:12px}}
+@media(max-width:600px){#grid{grid-template-columns:repeat(auto-fill,82px);grid-auto-rows:140px;gap:7px}.card{width:82px;height:136px}.folder{width:52px;height:39px}.name{font-size:10px}.toolbar{padding-bottom:8px}.top{height:39px}.brand{font-size:12px}}
 
 @keyframes scan{0%{transform:translateY(-100vh)}100%{transform:translateY(100vh)}}
 body:after{content:"";position:fixed;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#62ff9066,transparent);box-shadow:0 0 8px #62ff9055;pointer-events:none;z-index:100;animation:scan 9s linear infinite}
 @media(prefers-reduced-motion:reduce){body:after{display:none}}
 </style></head>
-<body><header><div class="wrap"><div class="top"><span class="lamp"></span><div class="brand">RAZACI // PROJECT OS <span style="font-size:9px;color:#59c87a;margin-left:7px">NEXUS DESKTOP</span></div><div style="font-size:9px;color:#57906a;white-space:nowrap">● 100 PROJECTS ONLINE</div><button id="save">📲 SAVE</button></div><div class="toolbar"><input id="q" placeholder="Search desktop projects…"></div></div></header>
+<body><header><div class="wrap"><div class="top"><span class="lamp"></span><div class="brand">RAZACI // PROJECT OS <span style="font-size:9px;color:#59c87a;margin-left:7px">DESKTOP</span></div><div style="font-size:9px;color:#57906a;white-space:nowrap">● ONLINE</div><button id="save">📲 SAVE</button></div><div class="toolbar"><input id="q" placeholder="Search desktop projects…"></div></div></header>
 <main class="wrap"><div id="count"></div><div id="grid"></div></main>
-<div id="context"><a id="ctxPlay" target="_blank" rel="noopener">▶ OPEN PROJECT</a><a id="ctxRepo" target="_blank" rel="noopener">📂 OPEN GITHUB</a><a id="ctxSite" target="_blank" rel="noopener">🌐 OPEN SITE</a></div><div id="hint">DOUBLE-CLICK = OPEN · RIGHT-CLICK = MENU</div><div id="help"><div class="box"><b>📲 Save this launcher</b><div id="helpText"></div><button id="close">CLOSE</button></div></div>
+<div id="help"><div class="box"><b>📲 Save this launcher</b><div id="helpText"></div><button id="close">CLOSE</button></div></div>
 <script>
 const USER="razaci";
 const PROJECTS=["herbalheart", "vet-assist", "fluttergpt", "the-wise-ml-example", "localGPT", "Simple-IP-Config", "JARVIS2", "atlas", "easydiffusion", "vespper", "cascadepaws", "towerdefense", "jarvisofthegods", "cookinggods", "midjourney-ui", "gpt4all", "season-pass-extension", "scratch", "Build_a_Webcam_Monitoring_Email_Alert_App_Using_Python", "ai-assistant", "anything-llm", "timeline", "lunar", "PWMLEDs", "GPT_AUTOMATE", "cargods", "vessel", "web-ui", "hippocampusgods", "escapegods", "cakechat", "smart-sec-cam", "pos", "dalai", "master-crewai-course", "J.A.R.V.I.S", "vetgod", "vetanatomy", "html", "understanding_ai", "crewAI", "sagify", "CONQUESTGODS", "autotrain-advanced", "Portable-The-Most-Dangerous-Writing-App", "kitchenofthegods", "vetclinic", "JARVIS", "gpt4-pdf-chatbot-langchain", "razaci.github.io", "RC-OS", "themostdangerouswritingapp", "livekit", "vetfighter", "cavegods", "empiregods", "morphhound", "ng-video-lecture", "koboldcpp", "ashenawake", "chatgpt-ui", "ComfyUI", "space", "herbcare", "rc-joystick", "open-operator", "mobilecommand", "llama", "spiritgods", "mindforge", "battleship", "Open-Assistant", "agents", "Alpaca-Turbo", "n8n", "JARVIS-AI-ASSISTANT", "AnimateDiff", "jetgods", "islandwatch", "Auto-GPT", "midjourney-discord-wrapper", "Autonomous-Self-Driving-Car-GTA-5", "Fooocus", "RVC3-python", "barkside", "Auto-GPT-Crypto-Plugin", "SuperAGI", "liora", "spacegods", "langchain", "jan", "zoogods", "spunggods", "sharkgods", "personaGPT", "chatgpt-api-by-browser-script", "the-afterlife-as-we-knew-it", "self-operating-computer", "morphgods", "gutenberg"];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function site(name){return name==="razaci.github.io"?"https://razaci.github.io/":`https://${USER}.github.io/${encodeURIComponent(name)}/`}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function draw(){
  let q=$("#q").value.trim().toLowerCase();
  let list=PROJECTS.filter(n=>n.toLowerCase().includes(q));
- $("#count").textContent=`NEXUS GRID // NEWEST FIRST // ${list.length} OF ${PROJECTS.length} PROJECT FOLDERS // DOUBLE-CLICK TO LAUNCH`;
- $("#grid").innerHTML=list.map(n=>`<div class="card" data-name="${esc(n)}" tabindex="0"><div class="folder"></div><div class="name">${esc(n)}</div></div>`).join("");
+ $("#count").textContent=`NEXUS GRID // NEWEST FIRST // ${list.length} OF ${PROJECTS.length} PROJECT FOLDERS`;
+ const glyphs=["◆","✦","⬢","◈","✧","⌁","✺","✹","◇","⬡"];
+ $("#grid").innerHTML=list.map(n=>{
+   let h=hash(n), hue=90+(h%120), tilt=((h>>8)%7)-3, glyph=glyphs[(h>>16)%glyphs.length];
+   let u=site(n), repo=`https://github.com/${USER}/${encodeURIComponent(n)}`;
+   return `<div class="card" data-name="${esc(n)}" tabindex="0">
+     <div class="folder" style="--h:${hue};--tilt:${tilt}deg;--glyph:'${glyph}'"></div>
+     <div class="name">${esc(n)}</div>
+     <div class="actions">
+       <a href="${u}" target="_blank" rel="noopener">SITE</a>
+       <a href="${repo}" target="_blank" rel="noopener">GITHUB</a>
+       <a class="play" href="${u}" target="_blank" rel="noopener">▶ PLAY</a>
+     </div>
+   </div>`;
+ }).join("");
  document.querySelectorAll(".card").forEach(card=>{
-   let n=card.dataset.name,u=site(n),repo=`https://github.com/${USER}/${encodeURIComponent(n)}`;
-   card.onclick=()=>{document.querySelectorAll(".card.selected").forEach(x=>x.classList.remove("selected"));card.classList.add("selected")};
-   card.ondblclick=()=>window.open(u,"_blank","noopener");
+   let n=card.dataset.name,u=site(n);
+   card.onclick=e=>{
+     if(e.target.closest("a")) return;
+     document.querySelectorAll(".card.selected").forEach(x=>x.classList.remove("selected"));
+     card.classList.add("selected");
+   };
+   card.ondblclick=e=>{if(!e.target.closest("a"))window.open(u,"_blank","noopener")};
    card.onkeydown=e=>{if(e.key==="Enter")window.open(u,"_blank","noopener")};
-   card.oncontextmenu=e=>{e.preventDefault();e.stopPropagation();card.click();let m=$("#context");$("#ctxPlay").href=u;$("#ctxRepo").href=repo;$("#ctxSite").href=u;m.style.display="block";m.style.left=Math.min(e.clientX,innerWidth-205)+"px";m.style.top=Math.min(e.clientY,innerHeight-145)+"px"};
  });
 }
-document.addEventListener("click",e=>{if(!e.target.closest("#context"))$("#context").style.display="none"});
 $("#q").oninput=draw;
 $("#save").onclick=()=>{
  let ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||((navigator.platform==="MacIntel")&&navigator.maxTouchPoints>1);
