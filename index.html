@@ -9,33 +9,42 @@ header{position:sticky;top:0;z-index:10;background:#030a07ed;border-bottom:1px s
 .top{height:43px;display:flex;align-items:center;gap:9px}.brand{font-weight:900;letter-spacing:.08em;color:#bfffd0;flex:1}.lamp{width:8px;height:8px;border-radius:50%;background:#62ff90;box-shadow:0 0 10px #62ff90}.wrap{max-width:1200px;margin:auto;padding:0 13px}
 .toolbar{display:flex;gap:7px;padding:0 0 9px}input,button,select{height:35px;border:1px solid #275b3c;border-radius:6px;background:#08110c;color:#eafff0;font:inherit;padding:0 10px}input{flex:1;min-width:120px}button{cursor:pointer}button:hover{border-color:#62d989;background:#102419}
 #count{max-width:1200px;margin:auto;padding:10px 15px 3px;color:#668b72;font-size:11px;letter-spacing:.07em}
-#grid{position:relative;z-index:1;max-width:1200px;margin:auto;padding:12px 13px 50px;display:grid;grid-template-columns:repeat(auto-fill,92px);grid-auto-rows:205px;gap:10px 13px;align-content:start}
-.card{width:92px;height:201px;border:1px solid transparent;border-radius:10px;padding:7px 4px 4px;text-align:center;cursor:default;transition:.16s ease;position:relative}.card:before{content:"";position:absolute;inset:0;border-radius:10px;opacity:0;background:linear-gradient(145deg,#65ff9218,transparent 55%);transition:.16s}.card:hover,.card.selected{background:linear-gradient(145deg,#173d2777,#07120c88);border-color:#3e8b59;box-shadow:inset 0 0 18px #5cff8610,0 7px 20px #0006}.card:hover:before,.card.selected:before{opacity:1}
-.folder{--h:135;width:62px;height:46px;margin:4px auto 9px;position:relative;border:1px solid hsl(var(--h) 70% 60%);border-radius:6px 8px 9px 9px;background:linear-gradient(155deg,hsl(var(--h) 55% 28%),hsl(var(--h) 55% 18%) 55%,#06100a);box-shadow:inset 0 1px #ffffff22,inset 0 -8px 18px #0007,0 8px 18px #0009,0 0 18px hsl(var(--h) 90% 55% / .18);transform:perspective(120px) rotateX(-3deg) rotateZ(var(--tilt,0deg));transition:.18s ease}.folder:before{content:"";position:absolute;left:5px;top:-9px;width:27px;height:10px;border:1px solid hsl(var(--h) 70% 60%);border-bottom:0;border-radius:5px 6px 0 0;background:linear-gradient(hsl(var(--h) 60% 34%),hsl(var(--h) 60% 24%))}.folder:after{content:var(--glyph,"◆");position:absolute;display:grid;place-items:center;left:9px;right:9px;top:7px;bottom:7px;border:1px solid hsl(var(--h) 80% 70% / .28);border-radius:4px;background:linear-gradient(90deg,transparent,hsl(var(--h) 90% 60% / .12),transparent);color:hsl(var(--h) 90% 78%);font-size:12px;text-shadow:0 0 8px hsl(var(--h) 90% 60%);box-shadow:inset 0 0 10px hsl(var(--h) 90% 55% / .08)}.card:hover .folder,.card.selected .folder{transform:perspective(120px) rotateX(-3deg) rotateZ(0deg) translateY(-4px) scale(1.06);box-shadow:inset 0 1px #ffffff33,inset 0 -8px 18px #0006,0 10px 22px #000b,0 0 28px hsl(var(--h) 90% 55% / .38)}
-.name{font-size:11px;line-height:1.15;height:39px;overflow:hidden;overflow-wrap:anywhere;text-shadow:0 1px 2px #000}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px;opacity:.9}
-.actions a{display:flex;align-items:center;justify-content:center;min-height:24px;padding:3px 4px;border:1px solid #28553a;border-radius:5px;background:#08110c;color:#cffff0;text-decoration:none;font-size:8px;font-weight:800;letter-spacing:.02em;transition:.15s ease}
+#grid{--cardMin:220px;--colGap:28px;--rowGap:54px;position:relative;z-index:1;max-width:1320px;margin:auto;padding:24px 22px 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--cardMin),1fr));grid-auto-rows:auto;column-gap:var(--colGap);row-gap:var(--rowGap);align-items:start;align-content:start}
+.card{width:100%;min-width:0;height:auto;min-height:0;padding:18px 14px 22px;margin:0;overflow:hidden;isolation:isolate;border:1px solid transparent;border-radius:10px;padding:7px 4px 4px;text-align:center;cursor:default;transition:.16s ease;position:relative}.card:before{content:"";position:absolute;inset:0;border-radius:10px;opacity:0;background:linear-gradient(145deg,#65ff9218,transparent 55%);transition:.16s}.card:hover,.card.selected{background:linear-gradient(145deg,#173d2777,#07120c88);border-color:#3e8b59;box-shadow:inset 0 0 18px #5cff8610,0 7px 20px #0006}.card:hover:before,.card.selected:before{opacity:1}
+.folder{--h:135;width:40px;height:28px;margin:8px auto 18px;position:relative;border:1px solid hsl(var(--h) 55% 48%);border-radius:4px 5px 5px 5px;background:linear-gradient(155deg,hsl(var(--h) 42% 24%),hsl(var(--h) 42% 16%) 58%,#07110b);box-shadow:inset 0 1px #ffffff18,0 4px 10px #0008,0 0 10px hsl(var(--h) 80% 55% / .12);transform:none;transition:.15s ease}.folder:before{content:"";position:absolute;left:4px;top:-6px;width:17px;height:7px;border:1px solid hsl(var(--h) 55% 48%);border-bottom:0;border-radius:4px 4px 0 0;background:hsl(var(--h) 44% 22%)}.folder:after{content:var(--glyph,"◆");position:absolute;display:grid;place-items:center;inset:5px 7px;border:1px solid hsl(var(--h) 65% 65% / .18);border-radius:3px;color:hsl(var(--h) 75% 72%);font-size:8px;text-shadow:0 0 6px hsl(var(--h) 80% 55%)}.card:hover .folder,.card.selected .folder{transform:translateY(-2px) scale(1.03);border-color:hsl(var(--h) 70% 62%);box-shadow:inset 0 1px #ffffff22,0 6px 14px #0009,0 0 14px hsl(var(--h) 85% 55% / .22)}
+.name{font-size:12px;line-height:1.35;min-height:42px;max-height:none;overflow:visible;overflow-wrap:anywhere;text-shadow:0 1px 2px #000;margin-bottom:9px}
+.actions{padding-bottom:4px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 8px;margin-top:16px;opacity:1;width:100%}
+.actions a{min-width:0;display:flex;align-items:center;justify-content:center;min-height:36px;padding:8px 7px;border:1px solid #2f6b47;border-radius:7px;background:#0a1710;color:#e6fff0;text-decoration:none;font-size:10px;font-weight:900;letter-spacing:.03em;transition:.15s ease;white-space:normal;text-align:center;line-height:1.15}
 .actions a:hover{background:#173722;border-color:#5ee58b;color:white;box-shadow:0 0 12px #4cff7b22}
-.actions .play{grid-column:1/-1;background:linear-gradient(90deg,#12351f,#194d2b,#12351f);border-color:#3c965c;color:#9effb7}
+.actions .play{grid-column:1/-1;min-height:42px;background:linear-gradient(90deg,#174927,#22683a,#174927);border-color:#62d98a;color:#d5ffe0;font-size:11px;box-shadow:0 0 14px #4dff7d20}
 #context{display:none;position:fixed;z-index:50;width:190px;padding:5px;background:#07110cfa;border:1px solid #397f50;border-radius:7px;box-shadow:0 15px 40px #000}
 #context a{display:block;color:#eafff0;text-decoration:none;padding:9px;border-radius:5px;font-size:12px}#context a:hover{background:#173722}
 #hint{position:fixed;bottom:8px;right:9px;z-index:4;background:#04100bdb;border:1px solid #214a32;border-radius:6px;padding:6px 9px;color:#668c73;font-size:10px}
 #help{display:none;position:fixed;inset:0;z-index:60;background:#000b;place-items:center;padding:20px}.box{width:min(480px,95vw);background:#09130e;border:1px solid #3b8055;border-radius:10px;padding:18px;line-height:1.6}.box b{color:#87ffab}.box button{width:100%;margin-top:10px}
-@media(max-width:600px){#grid{grid-template-columns:repeat(auto-fill,86px);grid-auto-rows:200px;gap:7px}.card{width:86px;height:196px}.folder{width:52px;height:39px}.name{font-size:10px}.toolbar{padding-bottom:8px}.top{height:39px}.brand{font-size:12px}}
+@media(max-width:600px){#grid{grid-template-columns:1fr;row-gap:34px;column-gap:0;padding:18px 14px 60px}.card{width:100%;height:auto;min-height:0}.folder{width:52px;height:39px}.name{font-size:10px}.toolbar{padding-bottom:8px}.top{height:39px}.brand{font-size:12px}}
 
 @keyframes scan{0%{transform:translateY(-100vh)}100%{transform:translateY(100vh)}}
 body:after{content:"";position:fixed;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#62ff9066,transparent);box-shadow:0 0 8px #62ff9055;pointer-events:none;z-index:100;animation:scan 9s linear infinite}
 @media(prefers-reduced-motion:reduce){body:after{display:none}}
 select{max-width:110px}.created{font-size:8px;color:#8eaf9b;line-height:14px;white-space:nowrap}.card{height:180px}#grid{grid-auto-rows:184px}@media(max-width:600px){.card{height:174px}#grid{grid-auto-rows:178px}.created{font-size:7px}}
 .actions .wide{grid-column:1/-1}
-.actions button{display:flex;align-items:center;justify-content:center;min-height:24px;padding:3px 4px;border:1px solid #28553a;border-radius:5px;background:#08110c;color:#cffff0;font:inherit;font-size:8px;font-weight:800;letter-spacing:.02em;cursor:pointer;transition:.15s ease}
+.actions button{min-width:0;display:flex;align-items:center;justify-content:center;min-height:36px;padding:8px 7px;border:1px solid #2f6b47;border-radius:7px;background:#0a1710;color:#e6fff0;font:inherit;font-size:10px;font-weight:900;letter-spacing:.03em;cursor:pointer;transition:.15s ease;white-space:normal;text-align:center;line-height:1.15}
 .actions button:hover{background:#173722;border-color:#5ee58b;color:white;box-shadow:0 0 12px #4cff7b22}
 .actions .reload{background:linear-gradient(90deg,#152d1d,#21492d,#152d1d);color:#b7ffc9}
 .actions .zip{color:#a9dcff;border-color:#31556a}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(30px);z-index:200;background:#07130c;border:1px solid #4ddd78;color:#dffff0;padding:9px 13px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 10px 35px #000;font-size:11px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.projectMeta{margin:12px 2px 16px;padding:10px 8px;border-top:1px solid #1d4930;border-bottom:1px solid #1d4930;background:#07100b88;border-radius:6px}
+.projectMeta .line1{font-size:9px;color:#8bb898;letter-spacing:.04em;line-height:1.4}
+.projectMeta .line2{font-size:8px;color:#567661;margin-top:6px;white-space:normal;overflow:visible;overflow-wrap:anywhere;line-height:1.35}
+.actions{margin-top:8px}
+@media(min-width:601px) and (max-width:820px){#grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:30px;row-gap:48px;grid-auto-rows:auto}}
+
+.fitFlash{animation:fitPulse .45s ease}
+@keyframes fitPulse{0%{box-shadow:0 0 0 0 #66ff9944}100%{box-shadow:0 0 0 18px transparent}}
 </style></head>
-<body><header><div class="wrap"><div class="top"><span class="lamp"></span><div class="brand">RAZACI // PROJECT OS <span style="font-size:9px;color:#59c87a;margin-left:7px">DESKTOP</span></div><div style="font-size:9px;color:#57906a;white-space:nowrap">● ONLINE</div><button id="reloadAll" title="Reload this launcher">↻ RELOAD</button><button id="save">📲 SAVE</button></div><div class="toolbar"><input id="q" aria-label="Search projects" placeholder="Search desktop projects…"><select id="sort" aria-label="Sort projects"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="az">A–Z</option></select></div></div></header>
+<body><header><div class="wrap"><div class="top"><span class="lamp"></span><div class="brand">RAZACI // PROJECT OS <span style="font-size:9px;color:#59c87a;margin-left:7px">DESKTOP</span></div><div style="font-size:9px;color:#57906a;white-space:nowrap">● ONLINE</div><button id="reloadAll" title="Reload this launcher">↻ RELOAD</button><button id="autoFit" title="Automatically size cards to fit the screen">⤢ AUTO FIT</button><button id="save">📲 SAVE</button></div><div class="toolbar"><input id="q" aria-label="Search projects" placeholder="Search desktop projects…"><select id="sort" aria-label="Sort projects"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="az">A–Z</option></select></div></div></header>
 <main class="wrap"><div id="count"></div><div id="grid"></div></main>
 <div id="toast" class="toast"></div><div id="help"><div class="box"><b>📲 Save this launcher</b><div id="helpText"></div><button id="close">CLOSE</button></div></div>
 <script>
@@ -78,7 +87,7 @@ function draw(){
    return `<div class="card" data-name="${esc(n)}" tabindex="0">
      <div class="folder" style="--h:${hue};--tilt:${tilt}deg;--glyph:'${glyph}'"></div>
      <div class="name">${esc(n)}</div>
-     <div class="created" title="Repository creation date">Created ${new Date(CREATED[n]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})}</div>
+     <div class="projectMeta"><div class="line1">CREATED ${new Date(CREATED[n]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})}</div><div class="line2">razaci / ${esc(n)}</div></div>
      <div class="actions">
        <a href="${u}" target="_blank" rel="noopener">SITE</a>
        <a href="${repo}" target="_blank" rel="noopener">GITHUB</a>
@@ -105,9 +114,41 @@ function draw(){
  document.querySelectorAll("[data-reload]").forEach(b=>b.onclick=()=>window.open(fresh(b.dataset.reload),"_blank","noopener"));
  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyText(b.dataset.copy,b.textContent.includes("REPO")?"Repo URL":"Site URL"));
 }
-$("#q").oninput=draw;
-$("#sort").onchange=draw;
+
+
+
+
+function autoFitCards(){
+  const grid=$("#grid");
+  const w=Math.max(280,grid.getBoundingClientRect().width);
+  let cols;
+  if(w < 560) cols=1;
+  else if(w < 860) cols=2;
+  else if(w < 1180) cols=3;
+  else cols=4;
+
+  const colGap = w < 700 ? 18 : 28;
+  const sidePad = w < 700 ? 12 : 22;
+  const usable = w - sidePad*2 - colGap*(cols-1);
+  const min = Math.max(220, Math.floor(usable/cols));
+
+  grid.style.setProperty("--cardMin", min+"px");
+  grid.style.setProperty("--colGap", colGap+"px");
+  grid.style.setProperty("--rowGap", (w<700?34:54)+"px");
+  grid.style.paddingLeft=sidePad+"px";
+  grid.style.paddingRight=sidePad+"px";
+
+  grid.classList.remove("fitFlash");
+  void grid.offsetWidth;
+  grid.classList.add("fitFlash");
+  toast(`Auto-fit: ${cols} column${cols===1?"":"s"} · natural card height`);
+}
+
+$("#q").oninput=()=>{draw();setTimeout(autoFitCards,20)};
+$("#sort").onchange=()=>{draw();setTimeout(autoFitCards,20)};
 $("#reloadAll").onclick=()=>{toast("Reloading launcher…");setTimeout(()=>location.reload(),180)};
+$("#autoFit").onclick=autoFitCards;
+window.addEventListener("resize",()=>{clearTimeout(window.__fitTimer);window.__fitTimer=setTimeout(autoFitCards,180)});
 document.addEventListener("keydown",e=>{
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="r"){e.preventDefault();$("#reloadAll").click();}
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="f"){e.preventDefault();$("#q").focus();$("#q").select();}
@@ -120,4 +161,5 @@ $("#save").onclick=()=>{
 $("#close").onclick=()=>$("#help").style.display="none";
 $("#help").onclick=e=>{if(e.target===$("#help"))$("#help").style.display="none"};
 draw();
+setTimeout(autoFitCards,60);
 </script></body></html>
