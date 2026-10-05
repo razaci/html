@@ -1,179 +1,47 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>RAZACI // Project OS — Phase 10 — Final</title>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RAZACI HTML Launcher</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:radial-gradient(circle at 50% -10%,#17452f 0,#04110c 38%,#010403 100%);color:#dfffea;font:13px ui-monospace,SFMono-Regular,Menlo,monospace;user-select:none}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,#0000 0 3px,#0002 4px);z-index:9998;opacity:.2}
-#boot{position:fixed;inset:0;z-index:10000;background:#010403;color:#68ff9d;padding:7vh 7vw;font-size:clamp(11px,2vw,15px);transition:opacity .45s}.bootLogo{font-size:clamp(25px,7vw,58px);font-weight:900;text-shadow:0 0 25px #2fff7b;margin-bottom:25px}.bootline{margin:8px 0;color:#7ccf98}.bootbar{height:5px;max-width:600px;background:#0a2418;margin-top:22px}.bootfill{height:100%;width:0;background:#62ff99;box-shadow:0 0 14px #62ff99;transition:width .35s}
-#top{height:55px;display:flex;align-items:center;gap:9px;padding:8px 11px;background:#020a08ee;border-bottom:1px solid #287a50;backdrop-filter:blur(10px);position:relative;z-index:1000}#brand{font-weight:900;color:#6dff9f;text-shadow:0 0 15px #30ff7770;white-space:nowrap}#sys{flex:1;text-align:right;color:#67997a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#clock{color:#a5ffc0;white-space:nowrap}
-button,input,select,a{font:inherit;color:#caffd9;background:#07150f;border:1px solid #287a50;border-radius:7px;padding:8px}button{cursor:pointer}button:hover,a:hover{background:#113823;border-color:#55e68a}
-#desktop{position:absolute;top:55px;bottom:42px;inset-inline:0;overflow:auto;background-image:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:32px 32px}#quickbar{position:sticky;top:0;z-index:3;display:flex;gap:6px;padding:8px 12px;background:#020a08cc;border-bottom:1px solid #17452f;backdrop-filter:blur(8px);overflow:auto}#quickbar button{white-space:nowrap;padding:6px 9px}#icons{display:grid;grid-template-columns:repeat(auto-fill,92px);grid-auto-rows:108px;gap:8px;padding:15px;align-content:start}.icon{width:90px;height:103px;text-align:center;padding:7px 3px;border:1px solid transparent;border-radius:10px;cursor:pointer;overflow:hidden}.icon:hover,.icon.sel{background:#174a3044;border-color:#3b9860}.ico{font-size:39px;filter:drop-shadow(0 0 9px #40ff7755)}.iname{font-size:10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.star{color:#ffe273}
-#notify{position:fixed;right:8px;top:62px;width:min(360px,92vw);max-height:55vh;overflow:auto;display:none;z-index:4500;background:#04100df5;border:1px solid #2a8153;border-radius:10px;box-shadow:0 15px 50px #000}.nhead{position:sticky;top:0;display:flex;align-items:center;padding:8px;background:#071810;border-bottom:1px solid #246b45}.nhead b{flex:1}.noticeItem{padding:9px;border-bottom:1px solid #123321}.noticeItem small{display:block;color:#669a79;margin-top:3px}#notifyCount{color:#6dff9f}
-#desktop.compact #icons{grid-template-columns:repeat(auto-fill,72px);grid-auto-rows:86px}#desktop.compact .icon{width:70px;height:82px;padding:4px}#desktop.compact .ico{font-size:29px}#desktop.large #icons{grid-template-columns:repeat(auto-fill,112px);grid-auto-rows:128px}#desktop.large .icon{width:110px;height:122px}#desktop.large .ico{font-size:50px}
-#dock{position:absolute;bottom:0;left:0;right:0;height:42px;background:#020a08f3;border-top:1px solid #287a50;z-index:1000;display:flex;gap:6px;align-items:center;padding:5px 8px;overflow:auto}.dockbtn{padding:6px 10px;white-space:nowrap}.dockbtn.active{background:#174a30}
-#ctx{position:fixed;z-index:5000;display:none;width:160px;background:#04100df7;border:1px solid #32915c;border-radius:9px;padding:6px;box-shadow:0 12px 35px #000}#ctx button{display:block;width:100%;text-align:left;margin:3px 0;padding:7px}
-#palette{position:fixed;inset:0;z-index:6000;background:#0009;display:none;align-items:flex-start;justify-content:center;padding-top:12vh;backdrop-filter:blur(6px)}.palbox{width:min(650px,92vw);background:#04100d;border:1px solid #32915c;border-radius:12px;padding:10px;box-shadow:0 20px 80px #000}.palbox input{width:100%;font-size:16px}.palitem{padding:10px;border-bottom:1px solid #153d29;cursor:pointer}.palitem:hover,.palitem.sel{background:#123923}.palitem small{float:right;color:#70a383}
-#menu{position:absolute;left:8px;bottom:47px;width:270px;background:#04100df2;border:1px solid #2a8153;border-radius:10px;padding:9px;z-index:1100;display:none;box-shadow:0 15px 50px #000}.menurow{display:block;width:100%;text-align:left;margin:5px 0}
-.window{position:absolute;left:8vw;top:10vh;width:min(920px,84vw);height:min(690px,75vh);background:#030b08f8;border:1px solid #2a8153;border-radius:10px;box-shadow:0 20px 70px #000b;overflow:hidden;display:none;z-index:20}.window.show{display:block;animation:pop .15s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.5}to{transform:scale(1);opacity:1}}.titlebar{height:42px;display:flex;align-items:center;gap:7px;padding:6px 8px;background:#071810;border-bottom:1px solid #246b45;cursor:move;touch-action:none}.titlebar b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8dffb1}.titlebar button,.titlebar a{padding:5px 8px;text-decoration:none}.content{height:calc(100% - 42px);overflow:auto}.toolbar{display:flex;gap:6px;padding:8px;border-bottom:1px solid #153d29;position:sticky;top:0;background:#030b08;z-index:2}.toolbar input{flex:1;min-width:80px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:10px;padding:10px}.card{border:1px solid #205c3c;background:#07130f;border-radius:10px;padding:12px}.card h3{margin:5px 0;overflow-wrap:anywhere}.muted{color:#6f9f80;font-size:10px}.good{color:#65ff9a}.actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.actions button,.actions a{text-align:center;text-decoration:none;padding:7px}.wide{grid-column:1/-1}.files .row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;padding:10px;border-bottom:1px solid #102a1d;cursor:pointer}.files .row:hover{background:#0b2017}.crumb{padding:9px;color:#79ad89;border-bottom:1px solid #153d29}.player{height:100%;background:#000;position:relative}.player iframe{width:100%;height:100%;border:0;background:#fff}.hint{position:absolute;bottom:8px;left:8px;right:8px;background:#03100ddd;border:1px solid #275d40;border-radius:7px;padding:6px;color:#8fbaa0;font-size:9px;pointer-events:none}
-.infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:13px}.infoBox{border:1px solid #205c3c;border-radius:9px;padding:12px;background:#06120e}.infoBox b{color:#72ffa3}.big{font-size:22px}.log{padding:10px}.log div{padding:6px;border-bottom:1px solid #102a1d;color:#78a98a}
-@media(max-width:650px){#quickbar{padding:6px 8px}#quickbar button{font-size:10px}#sys{display:none}#brand{font-size:10px}.window{left:2vw!important;top:60px!important;width:96vw!important;height:calc(100vh - 107px)!important}.titlebar{cursor:default}#icons{grid-template-columns:repeat(auto-fill,82px)}.icon{width:80px}.cards,.infoGrid{grid-template-columns:1fr}.optional{display:none}}
-</style></head><body>
-
-<div id="saveHelp" style="position:fixed;inset:0;z-index:9999;background:#000b;display:none;place-items:center;padding:18px">
-<div style="width:min(500px,95vw);background:#04100d;border:1px solid #42b870;border-radius:14px;padding:18px;box-shadow:0 20px 70px #000">
-<div style="display:flex;align-items:center;gap:8px"><b style="flex:1;color:#75ffa4;font-size:18px">📲 SAVE THIS PAGE</b><button id="saveHelpClose">✕</button></div>
-<div id="saveHelpText" style="line-height:1.65;margin-top:14px"></div>
-</div></div>
-<div id="boot"><div class="bootLogo">RAZACI // PROJECT OS</div><div id="boottext"></div><div class="bootbar"><div id="bootfill" class="bootfill"></div></div></div>
-<div id="top"><button id="start">◈</button><div id="brand">RAZACI // PROJECT OS <span class="muted">PHASE 10</span></div><button id="refresh">↻</button><button id="savePageBtn">📲 SAVE PAGE</button><div id="sys">INITIALIZING…</div><button id="notifyBtn" title="Notifications">◉ <span id="notifyCount">0</span></button><div id="clock"></div></div>
-<div id="notify"><div class="nhead"><b>NOTIFICATION CENTER</b><button onclick="clearNotices()">CLEAR</button></div><div id="notices"></div></div>
-<div id="desktop">
-<div id="quickbar"><button onclick="openLibrary()">📚 LIBRARY</button><button onclick="showFavorites()">★ FAVORITES</button><button onclick="showRecent()">◷ RECENT</button><button onclick="openInfo()">◉ SYSTEM</button><button id="sortBtn" onclick="cycleSort()">⇅ A–Z</button><button id="densityBtn" onclick="cycleDensity()">▦ NORMAL</button><button onclick="openWorkspace()">▤ WORKSPACE</button><button onclick="openDashboard()">▥ DASHBOARD</button></div>
-<div id="icons"></div></div><div id="dock"><button id="start2">◈ START</button></div>
-<div id="ctx"><button id="ctxOpen">▶ OPEN</button><button id="ctxInspect">◆ INSPECT</button><button id="ctxFiles">📂 FILES</button><button id="ctxFav">☆ FAVORITE</button><button id="ctxGit">GITHUB ↗</button></div>
-<div id="palette"><div class="palbox"><input id="palq" placeholder="Type a project name or command…" autocomplete="off"><div id="palresults"></div><small>Enter = open · Esc = close · Ctrl/⌘ + K = command launcher</small></div></div>
-<div id="menu"><b>PROJECT OS // COMMAND</b><button class="menurow" onclick="openLibrary()">📚 PROJECT LIBRARY</button><button class="menurow" onclick="showFavorites()">★ FAVORITES</button><button class="menurow" onclick="showRecent()">◷ RECENT PROJECTS</button><button class="menurow" onclick="openInfo()">◉ SYSTEM / GITHUB INFO</button><button class="menurow" onclick="load()">↻ REFRESH GITHUB</button></div>
-
-<div class="window" id="library"><div class="titlebar"><span>📚</span><b>PROJECT LIBRARY</b><button onclick="minWin('library')">—</button><button onclick="closeWin('library')">✕</button></div><div class="content"><div class="toolbar"><input id="q" placeholder="Search projects…"><select id="view"><option value="all">ALL</option><option value="web">WEB</option><option value="fav">FAVORITES</option><option value="recent">RECENT</option></select></div><div id="cards" class="cards"></div></div></div>
-<div class="window" id="explorer"><div class="titlebar"><span>📂</span><b id="etitle">FILES</b><button onclick="minWin('explorer')">—</button><button onclick="closeWin('explorer')">✕</button></div><div class="content"><div id="crumb" class="crumb">/</div><div id="files" class="files"></div></div></div>
-<div class="window" id="player"><div class="titlebar"><span>▶</span><b id="ptitle">PLAYER</b><button class="optional" onclick="reloadPlayer()">↻</button><a id="external" target="_blank" rel="noopener">↗</a><button onclick="fullPlayer()">⛶</button><button onclick="minWin('player')">—</button><button onclick="closePlayer()">✕</button></div><div class="content player" id="playerscreen"><iframe id="frame" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-pointer-lock allow-downloads" allow="fullscreen;autoplay;gamepad"></iframe><div class="hint">Embedded display depends on the project. Use ↗ if a site blocks framing.</div></div></div>
-<div class="window" id="info"><div class="titlebar"><span>◉</span><b>SYSTEM / GITHUB INFO</b><button onclick="minWin('info')">—</button><button onclick="closeWin('info')">✕</button></div><div class="content"><div class="infoGrid"><div class="infoBox"><span class="muted">ACCOUNT</span><br><b class="big">@razaci</b></div><div class="infoBox"><span class="muted">PUBLIC PROJECTS</span><br><b class="big" id="repoCount">0</b></div><div class="infoBox"><span class="muted">WEB LAUNCHERS</span><br><b class="big" id="webCount">0</b></div><div class="infoBox"><span class="muted">FAVORITES / RECENT</span><br><b class="big" id="localCount">0 / 0</b></div></div><div class="log" id="log"></div></div></div>
-
-<div class="window" id="inspect"><div class="titlebar"><span>◆</span><b id="ititle">PROJECT INSPECTOR</b><button onclick="minWin('inspect')">—</button><button onclick="closeWin('inspect')">✕</button></div>
-<div class="content"><div class="infoGrid">
-<div class="infoBox"><span class="muted">PROJECT</span><br><b class="big" id="iname2">—</b></div>
-<div class="infoBox"><span class="muted">TYPE</span><br><b class="big" id="itype">—</b></div>
-<div class="infoBox"><span class="muted">LANGUAGE</span><br><b id="ilang">—</b></div>
-<div class="infoBox"><span class="muted">LAST UPDATED</span><br><b id="iupdated">—</b></div>
-<div class="infoBox" style="grid-column:1/-1"><span class="muted">DESCRIPTION</span><p id="idesc">—</p></div>
-</div><div class="actions" style="padding:0 13px 13px"><button id="ifav">☆ FAVORITE</button><button id="ifiles">📂 FILES</button><a id="igh" target="_blank" rel="noopener">GITHUB ↗</a><button id="iplay" class="wide">▶ OPEN IN BROWSER</button></div></div></div>
-
-<div class="window" id="workspace"><div class="titlebar"><span>▤</span><b>PROJECT WORKSPACE</b><button onclick="minWin('workspace')">—</button><button onclick="closeWin('workspace')">✕</button></div>
-<div class="content">
-<div class="toolbar"><select id="wsrepo"><option>SELECT PROJECT</option></select><button id="wsPlay">▶ OPEN IN BROWSER</button><button id="wsFiles">📂 FILES</button><button id="wsGit">GITHUB ↗</button></div>
-<div class="infoGrid">
-<div class="infoBox"><span class="muted">SELECTED PROJECT</span><br><b class="big" id="wsName">—</b><p class="muted" id="wsDesc">Choose a repository above.</p></div>
-<div class="infoBox"><span class="muted">PROJECT SIGNAL</span><br><b id="wsSignal">WAITING</b><p class="muted" id="wsMeta">—</p></div>
-<div class="infoBox" style="grid-column:1/-1"><span class="muted">QUICK NOTES</span><textarea id="wsNotes" style="width:100%;height:140px;margin-top:8px;resize:vertical;background:#020a08;color:#dfffea;border:1px solid #287a50;border-radius:8px;padding:10px;font:inherit" placeholder="Notes for this project are saved locally on this device…"></textarea><div style="display:flex;gap:7px;margin-top:7px"><button id="wsSave">💾 SAVE NOTES</button><button id="wsCopy">⧉ COPY PROJECT URL</button></div></div>
-</div></div></div>
-
-<div class="window" id="dashboard"><div class="titlebar"><span>▥</span><b>PROJECT COMMAND DASHBOARD</b><button onclick="minWin('dashboard')">—</button><button onclick="closeWin('dashboard')">✕</button></div>
-<div class="content">
-<div class="infoGrid">
-<div class="infoBox"><span class="muted">TOTAL PROJECTS</span><br><b class="big" id="dTotal">0</b></div>
-<div class="infoBox"><span class="muted">PLAYABLE WEB APPS</span><br><b class="big good" id="dWeb">0</b></div>
-<div class="infoBox"><span class="muted">FAVORITES</span><br><b class="big" id="dFav">0</b></div>
-<div class="infoBox"><span class="muted">RECENTLY OPENED</span><br><b class="big" id="dRecent">0</b></div>
-<div class="infoBox" style="grid-column:1/-1"><span class="muted">RECENTLY UPDATED PROJECTS</span><div id="dUpdated" class="log"></div></div>
-<div class="infoBox" style="grid-column:1/-1"><span class="muted">LANGUAGE MAP</span><div id="dLang" class="log"></div></div>
-</div>
-<div class="actions" style="padding:0 13px 15px"><button onclick="showRecent()">◷ RECENT</button><button onclick="showFavorites()">★ FAVORITES</button><button onclick="openLibrary()">📚 LIBRARY</button><button onclick="load()">↻ SYNC GITHUB</button></div>
-</div></div>
+*{box-sizing:border-box}body{margin:0;background:#050807;color:#e8fff0;font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#09100d;border-bottom:1px solid #245c3b;padding:12px}
+.wrap{max-width:1100px;margin:auto}h1{font-size:21px;margin:0 0 5px;color:#79ffa7}.sub{color:#83a58e;font-size:12px;margin-bottom:10px}
+.controls{display:flex;gap:7px;flex-wrap:wrap}input,button{padding:10px;border:1px solid #347a50;border-radius:8px;background:#0e1813;color:#eafff0;font:inherit}input{flex:1;min-width:190px}
+#count{padding:12px 2px;color:#8db49a}#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;padding-bottom:30px}
+.card{background:#0c1210;border:1px solid #244c34;border-radius:10px;padding:12px}.name{font-weight:800;overflow-wrap:anywhere;margin-bottom:11px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}a{display:block;text-decoration:none;text-align:center;padding:9px;border:1px solid #35694a;border-radius:7px;color:#eafff0;background:#121d17}
+.play{grid-column:1/-1;background:#12341e;border-color:#42a966}a:hover,button:hover{background:#1a3c27}
+#help{display:none;position:fixed;inset:0;z-index:20;background:#000c;place-items:center;padding:20px}.box{width:min(480px,95vw);background:#101713;border:1px solid #3b8055;border-radius:12px;padding:18px;line-height:1.6}
+@media(max-width:520px){.wrap{padding-left:10px;padding-right:10px}#grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header><div class="wrap"><h1>📁 RAZACI // HTML LAUNCHER</h1>
+<div class="sub">Built-in project list — no GitHub API required to load this page.</div>
+<div class="controls"><input id="q" placeholder="Search projects…"><button id="save">📲 SAVE PAGE</button></div></div></header>
+<main class="wrap"><div id="count"></div><div id="grid"></div></main>
+<div id="help"><div class="box"><b>📲 Save this launcher</b><div id="helpText"></div><button id="close">CLOSE</button></div></div>
 <script>
-const U="razaci",A="https://api.github.com",FK="razaciOS.favorites",RK="razaciOS.recents";let repos=[],repo,path="",z=30;
-const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
-let fav=read(FK,[]),recent=read(RK,[]),sortMode=read("razaciOS.sort","az"),density=read("razaciOS.density","normal"),notices=read("razaciOS.notices",[]);
-function notice(s){notices=[{text:s,time:new Date().toLocaleString()},...notices].slice(0,30);write("razaciOS.notices",notices);renderNotices()}
-function renderNotices(){$("#notifyCount").textContent=notices.length;$("#notices").innerHTML=notices.map(n=>`<div class="noticeItem">${esc(n.text)}<small>${esc(n.time)}</small></div>`).join("")||'<div class="noticeItem">No notifications.</div>'}
-function clearNotices(){notices=[];write("razaciOS.notices",notices);renderNotices()}
-function applyDensity(){let d=$("#desktop");d.classList.remove("compact","large");if(density!=="normal")d.classList.add(density);$("#densityBtn").textContent=density==="compact"?"▦ COMPACT":density==="large"?"▦ LARGE":"▦ NORMAL"}
-function cycleDensity(){density=density==="normal"?"compact":density==="compact"?"large":"normal";write("razaciOS.density",density);applyDensity()}
-function cycleSort(){sortMode=sortMode==="az"?"updated":sortMode==="updated"?"favorites":"az";write("razaciOS.sort",sortMode);$("#sortBtn").textContent=sortMode==="az"?"⇅ A–Z":sortMode==="updated"?"⇅ UPDATED":"⇅ FAVORITES";desktop()}
-function log(s){let l=$("#log");l.innerHTML=`<div>${new Date().toLocaleTimeString()} · ${esc(s)}</div>`+l.innerHTML}
-async function get(u){
- const key="razaciOS.cache."+u;
- try{
-   let r=await fetch(u,{headers:{Accept:"application/vnd.github+json"}});
-   if(!r.ok)throw Error("GitHub "+r.status);
-   let data=await r.json();
-   try{localStorage.setItem(key,JSON.stringify({time:Date.now(),data}))}catch{}
-   return data;
- }catch(err){
-   try{
-     let c=JSON.parse(localStorage.getItem(key)||"null");
-     if(c&&c.data){$("#sys").textContent="OFFLINE/CACHED GITHUB DATA";return c.data}
-   }catch{}
-   throw err;
- }
+const USER="razaci";
+const PROJECTS=["herbalheart", "vet-assist", "fluttergpt", "the-wise-ml-example", "localGPT", "Simple-IP-Config", "JARVIS2", "atlas", "easydiffusion", "vespper", "cascadepaws", "towerdefense", "jarvisofthegods", "cookinggods", "midjourney-ui", "gpt4all", "season-pass-extension", "scratch", "Build_a_Webcam_Monitoring_Email_Alert_App_Using_Python", "ai-assistant", "anything-llm", "timeline", "lunar", "PWMLEDs", "GPT_AUTOMATE", "cargods", "vessel", "web-ui", "hippocampusgods", "escapegods", "cakechat", "smart-sec-cam", "pos", "dalai", "master-crewai-course", "J.A.R.V.I.S", "vetgod", "vetanatomy", "html", "understanding_ai", "crewAI", "sagify", "CONQUESTGODS", "autotrain-advanced", "Portable-The-Most-Dangerous-Writing-App", "kitchenofthegods", "vetclinic", "JARVIS", "gpt4-pdf-chatbot-langchain", "razaci.github.io", "RC-OS", "themostdangerouswritingapp", "livekit", "vetfighter", "cavegods", "empiregods", "morphhound", "ng-video-lecture", "koboldcpp", "ashenawake", "chatgpt-ui", "ComfyUI", "space", "herbcare", "rc-joystick", "open-operator", "mobilecommand", "llama", "spiritgods", "mindforge", "battleship", "Open-Assistant", "agents", "Alpaca-Turbo", "n8n", "JARVIS-AI-ASSISTANT", "AnimateDiff", "jetgods", "islandwatch", "Auto-GPT", "midjourney-discord-wrapper", "Autonomous-Self-Driving-Car-GTA-5", "Fooocus", "RVC3-python", "barkside", "Auto-GPT-Crypto-Plugin", "SuperAGI", "liora", "spacegods", "langchain", "jan", "zoogods", "spunggods", "sharkgods", "personaGPT", "chatgpt-api-by-browser-script", "the-afterlife-as-we-knew-it", "self-operating-computer", "morphgods", "gutenberg"];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function site(name){return name==="razaci.github.io"?"https://razaci.github.io/":`https://${USER}.github.io/${encodeURIComponent(name)}/`}
+function draw(){
+ let q=$("#q").value.trim().toLowerCase();
+ let list=PROJECTS.filter(n=>n.toLowerCase().includes(q)).sort((a,b)=>a.localeCompare(b));
+ $("#count").textContent=`${list.length} of ${PROJECTS.length} projects`;
+ $("#grid").innerHTML=list.map(n=>`<div class="card"><div class="name">📁 ${esc(n)}</div><div class="actions">
+ <a href="https://github.com/${USER}/${encodeURIComponent(n)}" target="_blank" rel="noopener">📂 GitHub</a>
+ <a href="${site(n)}" target="_blank" rel="noopener">🌐 Site</a>
+ <a class="play" href="${site(n)}" target="_blank" rel="noopener">▶ OPEN IN NEW BROWSER WINDOW</a>
+ </div></div>`).join("");
 }
-async function detect(r){r.launch=(r.homepage&&/^https?:\/\//i.test(r.homepage))?r.homepage:null;try{let x=await get(`${A}/repos/${U}/${encodeURIComponent(r.name)}/contents/index.html`);if(x.type==="file"&&!r.launch)r.launch=`https://${U}.github.io/${encodeURIComponent(r.name)}/`}catch{}}
-function desktop(){let list=[...repos];if(sortMode==="az")list.sort((a,b)=>a.name.localeCompare(b.name));else if(sortMode==="updated")list.sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));else list.sort((a,b)=>(fav.includes(b.name)-fav.includes(a.name))||a.name.localeCompare(b.name));$("#sortBtn").textContent=sortMode==="az"?"⇅ A–Z":sortMode==="updated"?"⇅ UPDATED":"⇅ FAVORITES";$("#icons").innerHTML=list.map(r=>`<div class="icon" data-i="${repos.indexOf(r)}" ondblclick="primary(${repos.indexOf(r)})" onclick="selectIcon(this);inspectProject(${repos.indexOf(r)})" oncontextmenu="projectMenu(event,${repos.indexOf(r)})"><div class="ico">${r.launch?"🎮":"📁"}</div><div class="iname">${fav.includes(r.name)?'<span class="star">★</span> ':""}${esc(r.name)}</div></div>`).join("");stats()}
-function selectIcon(e){document.querySelectorAll(".icon").forEach(x=>x.classList.remove("sel"));e.classList.add("sel")}function primary(i){repos[i].launch?play(i):browse(i)}
-let ctxIndex=-1,palIndex=0;
-function projectMenu(e,i){e.preventDefault();e.stopPropagation();ctxIndex=i;let r=repos[i],c=$("#ctx");$("#ctxOpen").textContent=r.launch?"▶ PLAY":"▶ OPEN FILES";$("#ctxFav").textContent=fav.includes(r.name)?"★ UNFAVORITE":"☆ FAVORITE";$("#ctxOpen").onclick=()=>{hideCtx();primary(i)};$("#ctxInspect").onclick=()=>{hideCtx();inspectProject(i)};$("#ctxFiles").onclick=()=>{hideCtx();browse(i)};$("#ctxFav").onclick=()=>{hideCtx();toggleFav(r.name)};$("#ctxGit").onclick=()=>{hideCtx();window.open(r.html_url,"_blank","noopener")};c.style.display="block";let x=Math.min(e.clientX,innerWidth-175),y=Math.min(e.clientY,innerHeight-220);c.style.left=x+"px";c.style.top=y+"px"}
-function hideCtx(){$("#ctx").style.display="none"}
-function palette(open=true){let p=$("#palette");p.style.display=open?"flex":"none";if(open){$("#palq").value="";palIndex=0;palDraw();setTimeout(()=>$("#palq").focus(),20)}}
-function palDraw(){let q=$("#palq").value.trim().toLowerCase();let cmds=[{n:"Project Library",a:openLibrary,k:"COMMAND"},{n:"Favorites",a:showFavorites,k:"COMMAND"},{n:"Recent Projects",a:showRecent,k:"COMMAND"},{n:"System Info",a:openInfo,k:"COMMAND"},{n:"Project Dashboard",a:openDashboard,k:"COMMAND"},{n:"Refresh GitHub",a:load,k:"COMMAND"}];let arr=cmds.filter(x=>x.n.toLowerCase().includes(q));repos.filter(r=>r.name.toLowerCase().includes(q)).slice(0,12).forEach(r=>arr.push({n:r.name,a:()=>primary(repos.indexOf(r)),k:r.launch?"PLAY":"REPO"}));window._pal=arr;palIndex=Math.min(palIndex,Math.max(0,arr.length-1));$("#palresults").innerHTML=arr.map((x,i)=>`<div class="palitem ${i===palIndex?"sel":""}" onclick="palRun(${i})">${esc(x.n)} <small>${x.k}</small></div>`).join("")||'<div class="palitem">No match</div>'}
-function palRun(i){let x=window._pal?.[i];if(x){palette(false);x.a()}}
-
-function openDashboard(){focusWin("dashboard");hideMenu();dashboard()}
-function dashboard(){let langs={};repos.forEach(r=>{let l=r.language||"Mixed";langs[l]=(langs[l]||0)+1});$("#dTotal").textContent=repos.length;$("#dWeb").textContent=repos.filter(r=>r.launch).length;$("#dFav").textContent=fav.length;$("#dRecent").textContent=recent.length;let up=[...repos].sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at)).slice(0,8);$("#dUpdated").innerHTML=up.map(r=>`<div style="cursor:pointer" onclick="inspectProject(${repos.indexOf(r)})"><b>${esc(r.name)}</b> <span class="muted">${new Date(r.updated_at).toLocaleDateString()}</span></div>`).join("")||"<div>No projects loaded.</div>";$("#dLang").innerHTML=Object.entries(langs).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div><b>${esc(k)}</b> <span class="muted">${v} project${v===1?"":"s"}</span></div>`).join("")||"<div>No language data.</div>"}
-let wsIndex=-1;
-function openWorkspace(){focusWin("workspace");hideMenu();fillWorkspaceList()}
-function fillWorkspaceList(){let s=$("#wsrepo"),old=s.value;s.innerHTML='<option value="">SELECT PROJECT</option>'+repos.map((r,i)=>`<option value="${i}">${esc(r.name)}</option>`).join("");if(old!==""&&repos[+old]){s.value=old;workspaceSelect(+old)}}
-function workspaceSelect(i){let r=repos[i];if(!r)return;wsIndex=i;$("#wsName").textContent=r.name;$("#wsDesc").textContent=r.description||"No repository description.";$("#wsSignal").textContent=r.launch?"WEB APP READY":"REPOSITORY READY";$("#wsSignal").className=r.launch?"good":"";$("#wsMeta").textContent=(r.language||"Mixed")+" · updated "+new Date(r.updated_at).toLocaleString();$("#wsPlay").disabled=!r.launch;$("#wsPlay").onclick=()=>play(i);$("#wsFiles").onclick=()=>browse(i);$("#wsGit").onclick=()=>window.open(r.html_url,"_blank","noopener");$("#wsNotes").value=read("razaciOS.note."+r.name,"");$("#wsSave").onclick=()=>{write("razaciOS.note."+r.name,$("#wsNotes").value);notice("Notes saved: "+r.name);log("Workspace notes saved: "+r.name)};$("#wsCopy").onclick=async()=>{let u=r.launch||r.html_url;try{await navigator.clipboard.writeText(u);notice("Project URL copied: "+r.name)}catch{prompt("Copy project URL:",u)}}}
-function inspectProject(i){let r=repos[i];if(!r)return;$("#ititle").textContent=r.name+" // INSPECTOR";$("#iname2").textContent=r.name;$("#itype").textContent=r.launch?"WEB APP":"REPOSITORY";$("#ilang").textContent=r.language||"Mixed";$("#iupdated").textContent=new Date(r.updated_at).toLocaleString();$("#idesc").textContent=r.description||"No repository description.";$("#igh").href=r.html_url;$("#ifav").textContent=fav.includes(r.name)?"★ FAVORITE":"☆ FAVORITE";$("#ifav").onclick=()=>{toggleFav(r.name);inspectProject(i)};$("#ifiles").onclick=()=>browse(i);$("#iplay").style.display=r.launch?"block":"none";$("#iplay").onclick=()=>play(i);focusWin("inspect");log("Inspected project: "+r.name)}
-function toggleFav(n){fav=fav.includes(n)?fav.filter(x=>x!==n):[n,...fav];write(FK,fav);desktop();cards();log("Favorite state changed: "+n);notice("Favorite updated: "+n)}
-function cards(){let q=($("#q").value||"").toLowerCase(),v=$("#view").value;let list=repos.filter(r=>(r.name+" "+(r.description||"")).toLowerCase().includes(q));if(v==="web")list=list.filter(r=>r.launch);if(v==="fav")list=list.filter(r=>fav.includes(r.name));if(v==="recent")list=list.filter(r=>recent.includes(r.name)).sort((a,b)=>recent.indexOf(a.name)-recent.indexOf(b.name));$("#cards").innerHTML=list.map(r=>`<div class="card"><div class="${r.launch?"good":""}">${r.launch?"● PLAYABLE":"● REPOSITORY"} <button style="float:right;padding:2px 6px" onclick='toggleFav(${JSON.stringify(r.name)})'>${fav.includes(r.name)?"★":"☆"}</button></div><h3>${esc(r.name)}</h3><div class="muted">${esc(r.description||"GitHub project")}<br>${esc(r.language||"Mixed")} · updated ${new Date(r.updated_at).toLocaleDateString()}</div><div class="actions"><button onclick="browse(${repos.indexOf(r)})">📂 FILES</button><a href="${esc(r.html_url)}" target="_blank" rel="noopener">GITHUB ↗</a>${r.launch?`<button class="wide" onclick="play(${repos.indexOf(r)})">▶ OPEN IN BROWSER</button>`:""}</div></div>`).join("")||"<div class=card>No projects in this view.</div>"}
-function focusWin(id){let w=$("#"+id);w.classList.add("show");w.dataset.open="1";w.style.zIndex=++z;dock()}function closeWin(id){let w=$("#"+id);w.classList.remove("show");w.dataset.open="0";dock()}function minWin(id){$("#"+id).classList.remove("show");dock()}
-function dock(){document.querySelectorAll(".dockwin").forEach(x=>x.remove());["library","explorer","player","info","inspect","workspace","dashboard"].forEach(id=>{let w=$("#"+id);if(w.dataset.open==="1"){let b=document.createElement("button");b.className="dockbtn dockwin"+(w.classList.contains("show")?" active":"");b.textContent=id.toUpperCase();b.onclick=()=>focusWin(id);$("#dock").appendChild(b)}})}
-function openLibrary(){focusWin("library");cards();hideMenu()}function showFavorites(){openLibrary();$("#view").value="fav";cards()}function showRecent(){openLibrary();$("#view").value="recent";cards()}function openInfo(){focusWin("info");stats();hideMenu()}
-function play(i){let r=repos[i];if(!r||!r.launch)return;recent=[r.name,...recent.filter(x=>x!==r.name)].slice(0,12);write(RK,recent);cards();stats();log("Opened project in browser: "+r.name);notice("Opened "+r.name+" in a new browser window");let w=window.open(r.launch,"_blank","noopener");if(!w){showBrowserLaunchHelp(r.launch,r.name)}}
-function showBrowserLaunchHelp(url,name){let h=$("#saveHelpText");if(h){h.innerHTML=`<b>${esc(name)}</b><br><br>Your browser blocked the new window. Tap the button below to open the project in a real browser tab.<br><br><a href="${esc(url)}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none">▶ OPEN PROJECT IN BROWSER</a>`;$("#saveHelp").style.display="grid"}}
-function reloadPlayer(){let f=$("#frame");f.src=f.src}function closePlayer(){$("#frame").src="about:blank";closeWin("player")}function fullPlayer(){document.fullscreenElement?document.exitFullscreen():$("#playerscreen").requestFullscreen?.()}
-async function browse(i){repo=repos[i];path="";$("#etitle").textContent=repo.name+" // FILES";focusWin("explorer");log("Opened repository: "+repo.name);dir("")}
-async function dir(p){path=p;$("#crumb").textContent="/"+p;$("#files").innerHTML='<div class="row">Reading repository…</div>';try{let u=`${A}/repos/${U}/${encodeURIComponent(repo.name)}/contents/${p.split("/").map(encodeURIComponent).join("/")}`,a=await get(u);a=Array.isArray(a)?a:[a];a.sort((x,y)=>x.type===y.type?x.name.localeCompare(y.name):(x.type==="dir"?-1:1));let h=p?`<div class="row" onclick="up()">↩ <span>.. BACK</span><span></span></div>`:"";h+=a.map(x=>`<div class="row" onclick='item(${JSON.stringify(x.type)},${JSON.stringify(x.path)},${JSON.stringify(x.html_url||"")})'><span>${x.type==="dir"?"📁":"📄"}</span><span>${esc(x.name)}</span><small>${x.type==="dir"?"FOLDER":"FILE"}</small></div>`).join("");$("#files").innerHTML=h}catch(e){$("#files").innerHTML='<div class="row"><span>⚠</span><span>GitHub could not load this folder right now.</span><span></span></div><div class="row" onclick="window.open(repo.html_url,\'_blank\',\'noopener\')"><span>↗</span><span>OPEN REPOSITORY ON GITHUB</span><span>WEB</span></div>'}}
-function up(){let a=path.split("/");a.pop();dir(a.join("/"))}function item(t,p,u){t==="dir"?dir(p):window.open(u,"_blank","noopener")}
-function stats(){if($("#dashboard").dataset.open==="1")dashboard();$("#repoCount").textContent=repos.length;$("#webCount").textContent=repos.filter(r=>r.launch).length;$("#localCount").textContent=fav.length+" / "+recent.length}
-function drag(w){let bar=w.querySelector(".titlebar"),sx,sy,sl,st,on=false;bar.onpointerdown=e=>{if(innerWidth<650||e.target.closest("button,a"))return;on=true;sx=e.clientX;sy=e.clientY;sl=w.offsetLeft;st=w.offsetTop;bar.setPointerCapture(e.pointerId);focusWin(w.id)};bar.onpointermove=e=>{if(on){w.style.left=Math.max(0,sl+e.clientX-sx)+"px";w.style.top=Math.max(55,st+e.clientY-sy)+"px"}};bar.onpointerup=()=>on=false;w.onpointerdown=()=>w.style.zIndex=++z}["library","explorer","player","info","inspect","workspace","dashboard"].forEach(id=>drag($("#"+id)));
-async function load(){
- hideMenu();
- try{
-   $("#sys").textContent="LOADING GITHUB PROJECTS…";
-   log("GitHub scan started");
-   let all=[];
-   // One 100-repository request is enough for this account in normal use and avoids
-   // repeatedly walking pages when GitHub rate limits unauthenticated browser requests.
-   let b=await get(`${A}/users/${U}/repos?per_page=100&sort=updated`);
-   all.push(...b);
-   repos=all.filter(r=>!r.fork);
-   desktop();cards();stats();fillWorkspaceList();dashboard();
-   $("#sys").textContent=`ONLINE · ${repos.length} PROJECTS · CHECKING WEB LINKS`;
-   // Do not block the folder list while launch detection runs.
-   // Check slowly and stop cleanly if GitHub begins rejecting extra requests.
-   for(let i=0;i<repos.length;i++){
-     try{await detect(repos[i])}catch{}
-     if(i%4===3){desktop();cards();await new Promise(r=>setTimeout(r,120))}
-   }
-   desktop();cards();stats();fillWorkspaceList();dashboard();
-   $("#sys").textContent=`ONLINE · ${repos.length} PROJECTS · ${repos.filter(r=>r.launch).length} WEB`;
-   log("GitHub scan complete");
- }catch(e){
-   $("#sys").textContent="GITHUB CONNECTION ERROR · PRESS ↻ TO RETRY";
-   log("GitHub error: "+e.message);
-   // Keep the OS usable instead of replacing the desktop with a black/error state.
-   desktop();cards();stats();fillWorkspaceList();dashboard();
- }
-}
-function menu(){let m=$("#menu");m.style.display=m.style.display==="block"?"none":"block"}function hideMenu(){$("#menu").style.display="none"}$("#start").onclick=menu;$("#start2").onclick=menu;$("#refresh").onclick=load;$("#notifyBtn").onclick=e=>{e.stopPropagation();let n=$("#notify");n.style.display=n.style.display==="block"?"none":"block"};$("#q").oninput=cards;$("#view").onchange=cards;$("#wsrepo").onchange=e=>{if(e.target.value!=="")workspaceSelect(+e.target.value)};
-$("#palq").oninput=()=>{palIndex=0;palDraw()};$("#palq").onkeydown=e=>{let n=window._pal?.length||0;if(e.key==="ArrowDown"){e.preventDefault();palIndex=Math.min(n-1,palIndex+1);palDraw()}if(e.key==="ArrowUp"){e.preventDefault();palIndex=Math.max(0,palIndex-1);palDraw()}if(e.key==="Enter"){e.preventDefault();palRun(palIndex)}if(e.key==="Escape")palette(false)};
-document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();palette(true)}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="w"){e.preventDefault();openWorkspace()}else if(e.key==="Escape"){hideCtx();if($("#palette").style.display==="flex")palette(false)}});
-document.addEventListener("click",e=>{if(!e.target.closest("#ctx"))hideCtx()});
-$("#desktop").addEventListener("contextmenu",e=>{if(!e.target.closest(".icon"))e.preventDefault()});
-setInterval(()=>$("#clock").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),1000);
-renderNotices();applyDensity();document.addEventListener("click",e=>{if(!e.target.closest("#notify")&&!e.target.closest("#notifyBtn"))$("#notify").style.display="none"});
-
-function showSavePageHelp(){
- const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||((navigator.platform==="MacIntel")&&navigator.maxTouchPoints>1);
- const text=ios
- ? '<b>On iPhone/iPad:</b><br>Tap the Safari <b>Share</b> button → <b>Add to Home Screen</b> → <b>Add</b>.<br><br>That creates a clickable icon that opens this exact page.'
- : '<b>On Windows/Desktop:</b><br>Press <b>Ctrl + D</b> to bookmark this exact page.<br><br>On Mac use <b>⌘ + D</b>.';
- document.querySelector("#saveHelpText").innerHTML=text;
- document.querySelector("#saveHelp").style.display="grid";
-}
-document.querySelector("#savePageBtn").onclick=showSavePageHelp;
-document.querySelector("#saveHelpClose").onclick=()=>document.querySelector("#saveHelp").style.display="none";
-document.querySelector("#saveHelp").onclick=e=>{if(e.target===document.querySelector("#saveHelp"))document.querySelector("#saveHelp").style.display="none"};
-
-async function boot(){let lines=["KERNEL // HTML5 RUNTIME OK","LOCAL PROFILE // LOADED","DESKTOP // READY","GITHUB LINK // STARTING"];for(let i=0;i<lines.length;i++){await new Promise(r=>setTimeout(r,260));$("#boottext").innerHTML+=`<div class=bootline>${lines[i]}</div>`;$("#bootfill").style.width=((i+1)/lines.length*100)+"%"}await new Promise(r=>setTimeout(r,350));$("#boot").style.opacity=0;setTimeout(()=>$("#boot").remove(),500);load()}boot();
+$("#q").oninput=draw;
+$("#save").onclick=()=>{
+ let ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||((navigator.platform==="MacIntel")&&navigator.maxTouchPoints>1);
+ $("#helpText").innerHTML=ios?"<p>On iPhone/iPad in Safari: tap <b>Share</b> → <b>Add to Home Screen</b> → <b>Add</b>.</p>":"<p>On Windows press <b>Ctrl + D</b> to bookmark this page. On Mac press <b>⌘ + D</b>.</p>";
+ $("#help").style.display="grid";
+};
+$("#close").onclick=()=>$("#help").style.display="none";
+$("#help").onclick=e=>{if(e.target===$("#help"))$("#help").style.display="none"};
+draw();
 </script></body></html>
