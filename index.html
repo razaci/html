@@ -1,165 +1,105 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RAZACI HTML Launcher</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>razaci projects</title>
 <style>
-:root{--green:#72ffa0;--line:#245b3a;--text:#eafff1;--muted:#789482}
-*{box-sizing:border-box}html,body{min-height:100%}body{margin:0;background:#020604;color:var(--text);font-family:Consolas,"Courier New",monospace;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 0,#10301e 0,transparent 42%),linear-gradient(rgba(74,255,126,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(74,255,126,.025) 1px,transparent 1px);background-size:auto,36px 36px,36px 36px}
-header{position:sticky;top:0;z-index:10;background:#030a07ed;border-bottom:1px solid #1d4c30;backdrop-filter:blur(10px);box-shadow:0 8px 25px #0008}
-.top{height:43px;display:flex;align-items:center;gap:9px}.brand{font-weight:900;letter-spacing:.08em;color:#bfffd0;flex:1}.lamp{width:8px;height:8px;border-radius:50%;background:#62ff90;box-shadow:0 0 10px #62ff90}.wrap{max-width:1200px;margin:auto;padding:0 13px}
-.toolbar{display:flex;gap:7px;padding:0 0 9px}input,button,select{height:35px;border:1px solid #275b3c;border-radius:6px;background:#08110c;color:#eafff0;font:inherit;padding:0 10px}input{flex:1;min-width:120px}button{cursor:pointer}button:hover{border-color:#62d989;background:#102419}
-#count{max-width:1200px;margin:auto;padding:10px 15px 3px;color:#668b72;font-size:11px;letter-spacing:.07em}
-#grid{--cardMin:220px;--colGap:28px;--rowGap:54px;position:relative;z-index:1;max-width:1320px;margin:auto;padding:24px 22px 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--cardMin),1fr));grid-auto-rows:auto;column-gap:var(--colGap);row-gap:var(--rowGap);align-items:start;align-content:start}
-.card{width:100%;min-width:0;height:auto;min-height:0;padding:18px 14px 22px;margin:0;overflow:hidden;isolation:isolate;border:1px solid transparent;border-radius:10px;padding:7px 4px 4px;text-align:center;cursor:default;transition:.16s ease;position:relative}.card:before{content:"";position:absolute;inset:0;border-radius:10px;opacity:0;background:linear-gradient(145deg,#65ff9218,transparent 55%);transition:.16s}.card:hover,.card.selected{background:linear-gradient(145deg,#173d2777,#07120c88);border-color:#3e8b59;box-shadow:inset 0 0 18px #5cff8610,0 7px 20px #0006}.card:hover:before,.card.selected:before{opacity:1}
-.folder{--h:135;width:40px;height:28px;margin:8px auto 18px;position:relative;border:1px solid hsl(var(--h) 55% 48%);border-radius:4px 5px 5px 5px;background:linear-gradient(155deg,hsl(var(--h) 42% 24%),hsl(var(--h) 42% 16%) 58%,#07110b);box-shadow:inset 0 1px #ffffff18,0 4px 10px #0008,0 0 10px hsl(var(--h) 80% 55% / .12);transform:none;transition:.15s ease}.folder:before{content:"";position:absolute;left:4px;top:-6px;width:17px;height:7px;border:1px solid hsl(var(--h) 55% 48%);border-bottom:0;border-radius:4px 4px 0 0;background:hsl(var(--h) 44% 22%)}.folder:after{content:var(--glyph,"◆");position:absolute;display:grid;place-items:center;inset:5px 7px;border:1px solid hsl(var(--h) 65% 65% / .18);border-radius:3px;color:hsl(var(--h) 75% 72%);font-size:8px;text-shadow:0 0 6px hsl(var(--h) 80% 55%)}.card:hover .folder,.card.selected .folder{transform:translateY(-2px) scale(1.03);border-color:hsl(var(--h) 70% 62%);box-shadow:inset 0 1px #ffffff22,0 6px 14px #0009,0 0 14px hsl(var(--h) 85% 55% / .22)}
-.name{font-size:12px;line-height:1.35;min-height:42px;max-height:none;overflow:visible;overflow-wrap:anywhere;text-shadow:0 1px 2px #000;margin-bottom:9px}
-.actions{padding-bottom:4px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 8px;margin-top:16px;opacity:1;width:100%}
-.actions a{min-width:0;display:flex;align-items:center;justify-content:center;min-height:36px;padding:8px 7px;border:1px solid #2f6b47;border-radius:7px;background:#0a1710;color:#e6fff0;text-decoration:none;font-size:10px;font-weight:900;letter-spacing:.03em;transition:.15s ease;white-space:normal;text-align:center;line-height:1.15}
-.actions a:hover{background:#173722;border-color:#5ee58b;color:white;box-shadow:0 0 12px #4cff7b22}
-.actions .play{grid-column:1/-1;min-height:42px;background:linear-gradient(90deg,#174927,#22683a,#174927);border-color:#62d98a;color:#d5ffe0;font-size:11px;box-shadow:0 0 14px #4dff7d20}
-#context{display:none;position:fixed;z-index:50;width:190px;padding:5px;background:#07110cfa;border:1px solid #397f50;border-radius:7px;box-shadow:0 15px 40px #000}
-#context a{display:block;color:#eafff0;text-decoration:none;padding:9px;border-radius:5px;font-size:12px}#context a:hover{background:#173722}
-#hint{position:fixed;bottom:8px;right:9px;z-index:4;background:#04100bdb;border:1px solid #214a32;border-radius:6px;padding:6px 9px;color:#668c73;font-size:10px}
-#help{display:none;position:fixed;inset:0;z-index:60;background:#000b;place-items:center;padding:20px}.box{width:min(480px,95vw);background:#09130e;border:1px solid #3b8055;border-radius:10px;padding:18px;line-height:1.6}.box b{color:#87ffab}.box button{width:100%;margin-top:10px}
-@media(max-width:600px){#grid{grid-template-columns:1fr;row-gap:34px;column-gap:0;padding:18px 14px 60px}.card{width:100%;height:auto;min-height:0}.folder{width:52px;height:39px}.name{font-size:10px}.toolbar{padding-bottom:8px}.top{height:39px}.brand{font-size:12px}}
+  *{box-sizing:border-box}
+  body{margin:0;background:#0d1117;color:#e6edf3;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+  main{width:min(900px,94%);margin:32px auto}
+  header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+  h1{font-size:24px;margin:0;margin-right:auto}
+  button,input{border:1px solid #30363d;background:#161b22;color:#e6edf3;border-radius:8px;padding:10px 12px}
+  button{cursor:pointer}
+  button:hover{background:#21262d}
+  input{min-width:220px}
+  #status{color:#8b949e;margin:8px 0 16px}
+  #list{display:grid;gap:8px}
+  .project{display:flex;align-items:center;gap:12px;padding:13px 14px;background:#161b22;border:1px solid #30363d;border-radius:9px}
+  .folder{font-size:20px}
+  .name{font-weight:700;overflow-wrap:anywhere}
+  .actions{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}
+  a{color:#58a6ff;text-decoration:none;border:1px solid #30363d;padding:7px 9px;border-radius:7px}
+  a:hover{background:#21262d}
+  @media(max-width:600px){
+    main{margin:18px auto}
+    .project{align-items:flex-start;flex-wrap:wrap}
+    .actions{width:100%;margin-left:32px}
+    input{width:100%}
+  }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>razaci projects</h1>
+  <button id="reload">Reload</button>
+  <input id="search" placeholder="Find a project…">
+</header>
+<div id="status">Loading projects…</div>
+<div id="list"></div>
+</main>
 
-@keyframes scan{0%{transform:translateY(-100vh)}100%{transform:translateY(100vh)}}
-body:after{content:"";position:fixed;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,#62ff9066,transparent);box-shadow:0 0 8px #62ff9055;pointer-events:none;z-index:100;animation:scan 9s linear infinite}
-@media(prefers-reduced-motion:reduce){body:after{display:none}}
-select{max-width:110px}.created{font-size:8px;color:#8eaf9b;line-height:14px;white-space:nowrap}.card{height:180px}#grid{grid-auto-rows:184px}@media(max-width:600px){.card{height:174px}#grid{grid-auto-rows:178px}.created{font-size:7px}}
-.actions .wide{grid-column:1/-1}
-.actions button{min-width:0;display:flex;align-items:center;justify-content:center;min-height:36px;padding:8px 7px;border:1px solid #2f6b47;border-radius:7px;background:#0a1710;color:#e6fff0;font:inherit;font-size:10px;font-weight:900;letter-spacing:.03em;cursor:pointer;transition:.15s ease;white-space:normal;text-align:center;line-height:1.15}
-.actions button:hover{background:#173722;border-color:#5ee58b;color:white;box-shadow:0 0 12px #4cff7b22}
-.actions .reload{background:linear-gradient(90deg,#152d1d,#21492d,#152d1d);color:#b7ffc9}
-.actions .zip{color:#a9dcff;border-color:#31556a}
-.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(30px);z-index:200;background:#07130c;border:1px solid #4ddd78;color:#dffff0;padding:9px 13px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 10px 35px #000;font-size:11px}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-.projectMeta{margin:12px 2px 16px;padding:10px 8px;border-top:1px solid #1d4930;border-bottom:1px solid #1d4930;background:#07100b88;border-radius:6px}
-.projectMeta .line1{font-size:9px;color:#8bb898;letter-spacing:.04em;line-height:1.4}
-.projectMeta .line2{font-size:8px;color:#567661;margin-top:6px;white-space:normal;overflow:visible;overflow-wrap:anywhere;line-height:1.35}
-.actions{margin-top:8px}
-@media(min-width:601px) and (max-width:820px){#grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:30px;row-gap:48px;grid-auto-rows:auto}}
-
-.fitFlash{animation:fitPulse .45s ease}
-@keyframes fitPulse{0%{box-shadow:0 0 0 0 #66ff9944}100%{box-shadow:0 0 0 18px transparent}}
-</style></head>
-<body><header><div class="wrap"><div class="top"><span class="lamp"></span><div class="brand">RAZACI // PROJECT OS <span style="font-size:9px;color:#59c87a;margin-left:7px">DESKTOP</span></div><div style="font-size:9px;color:#57906a;white-space:nowrap">● ONLINE</div><button id="reloadAll" title="Reload this launcher">↻ RELOAD</button><button id="autoFit" title="Automatically size cards to fit the screen">⤢ AUTO FIT</button><button id="save">📲 SAVE</button></div><div class="toolbar"><input id="q" aria-label="Search projects" placeholder="Search desktop projects…"><select id="sort" aria-label="Sort projects"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="az">A–Z</option></select></div></div></header>
-<main class="wrap"><div id="count"></div><div id="grid"></div></main>
-<div id="toast" class="toast"></div><div id="help"><div class="box"><b>📲 Save this launcher</b><div id="helpText"></div><button id="close">CLOSE</button></div></div>
 <script>
-const USER="razaci";
-const PROJECTS=["morphhound", "lunar", "sharkgods", "ashenawake", "jarvisofthegods", "html", "cavegods", "spunggods", "liora", "islandwatch", "empiregods", "CONQUESTGODS", "jetgods", "vetanatomy", "towerdefense", "zoogods", "morphgods", "mobilecommand", "hippocampusgods", "pos", "spacegods", "vetgod", "cargods", "escapegods", "kitchenofthegods", "cookinggods", "spiritgods", "vetclinic", "atlas", "mindforge", "battleship", "space", "vessel", "vetfighter", "barkside", "cascadepaws", "herbcare", "vet-assist", "herbalheart", "fluttergpt", "the-wise-ml-example", "localGPT", "Simple-IP-Config", "JARVIS2", "easydiffusion", "vespper", "midjourney-ui", "gpt4all", "season-pass-extension", "scratch", "Build_a_Webcam_Monitoring_Email_Alert_App_Using_Python", "ai-assistant", "anything-llm", "timeline", "PWMLEDs", "GPT_AUTOMATE", "web-ui", "cakechat", "smart-sec-cam", "dalai", "master-crewai-course", "J.A.R.V.I.S", "understanding_ai", "crewAI", "sagify", "autotrain-advanced", "Portable-The-Most-Dangerous-Writing-App", "JARVIS", "gpt4-pdf-chatbot-langchain", "razaci.github.io", "RC-OS", "themostdangerouswritingapp", "livekit", "ng-video-lecture", "koboldcpp", "chatgpt-ui", "ComfyUI", "rc-joystick", "open-operator", "llama", "Open-Assistant", "agents", "Alpaca-Turbo", "n8n", "JARVIS-AI-ASSISTANT", "AnimateDiff", "Auto-GPT", "midjourney-discord-wrapper", "Autonomous-Self-Driving-Car-GTA-5", "Fooocus", "RVC3-python", "Auto-GPT-Crypto-Plugin", "SuperAGI", "langchain", "jan", "personaGPT", "chatgpt-api-by-browser-script", "the-afterlife-as-we-knew-it", "self-operating-computer", "gutenberg"];
-const CREATED={"morphhound": "2026-10-05T15:38:49Z", "lunar": "2026-10-04T18:23:59Z", "sharkgods": "2026-10-04T15:51:44Z", "ashenawake": "2026-10-03T20:47:34Z", "jarvisofthegods": "2026-10-03T15:19:33Z", "html": "2026-10-02T20:00:41Z", "cavegods": "2026-10-02T18:27:34Z", "spunggods": "2026-10-02T13:50:07Z", "liora": "2026-10-01T19:03:52Z", "islandwatch": "2026-10-01T18:50:39Z", "empiregods": "2026-09-29T22:33:44Z", "CONQUESTGODS": "2026-09-29T22:28:06Z", "jetgods": "2026-09-29T19:11:58Z", "vetanatomy": "2026-09-28T15:32:11Z", "towerdefense": "2026-09-25T18:01:06Z", "zoogods": "2026-09-16T15:30:59Z", "morphgods": "2026-09-14T19:11:42Z", "mobilecommand": "2026-09-08T14:38:24Z", "hippocampusgods": "2026-09-06T18:43:46Z", "pos": "2026-09-05T23:54:14Z", "spacegods": "2026-09-05T21:50:36Z", "vetgod": "2026-09-05T17:25:48Z", "cargods": "2026-09-05T16:32:12Z", "escapegods": "2026-09-04T21:31:01Z", "kitchenofthegods": "2026-09-04T19:49:09Z", "cookinggods": "2026-09-04T16:18:58Z", "spiritgods": "2026-09-03T15:06:36Z", "vetclinic": "2026-09-02T13:40:26Z", "atlas": "2026-09-02T13:35:21Z", "mindforge": "2026-09-02T06:20:40Z", "battleship": "2026-09-02T05:37:09Z", "space": "2026-09-02T05:08:54Z", "vessel": "2026-08-30T19:16:01Z", "vetfighter": "2026-08-30T16:39:48Z", "barkside": "2026-08-30T13:49:24Z", "cascadepaws": "2026-08-29T21:51:28Z", "herbcare": "2026-08-26T20:41:38Z", "vet-assist": "2026-08-26T02:42:04Z", "herbalheart": "2026-08-25T15:05:25Z", "fluttergpt": "2023-05-03T05:17:41Z", "the-wise-ml-example": "2023-05-01T09:44:30Z", "localGPT": "2025-02-23T02:31:19Z", "Simple-IP-Config": "2025-02-26T04:41:17Z", "JARVIS2": "2025-02-19T17:22:04Z", "easydiffusion": "2025-02-18T12:26:54Z", "vespper": "2025-02-23T16:39:35Z", "midjourney-ui": "2025-02-19T17:32:38Z", "gpt4all": "2023-05-06T01:18:58Z", "season-pass-extension": "2023-05-19T19:10:59Z", "scratch": "2025-02-25T05:06:52Z", "Build_a_Webcam_Monitoring_Email_Alert_App_Using_Python": "2025-02-25T04:34:24Z", "ai-assistant": "2025-02-17T00:28:48Z", "anything-llm": "2025-02-20T00:48:12Z", "timeline": "2021-06-27T00:51:45Z", "PWMLEDs": "2023-02-03T04:04:14Z", "GPT_AUTOMATE": "2023-04-29T04:25:02Z", "web-ui": "2025-02-23T22:17:01Z", "cakechat": "2025-02-19T22:28:26Z", "smart-sec-cam": "2025-02-25T04:31:56Z", "dalai": "2023-04-28T06:54:41Z", "master-crewai-course": "2025-02-19T16:10:10Z", "J.A.R.V.I.S": "2025-03-09T01:00:38Z", "understanding_ai": "2025-03-09T19:10:31Z", "crewAI": "2025-02-19T16:11:00Z", "sagify": "2023-05-01T09:41:01Z", "autotrain-advanced": "2025-02-19T15:55:09Z", "Portable-The-Most-Dangerous-Writing-App": "2025-02-28T19:32:07Z", "JARVIS": "2025-02-16T21:15:30Z", "gpt4-pdf-chatbot-langchain": "2023-04-30T08:51:08Z", "razaci.github.io": "2023-04-24T02:09:58Z", "RC-OS": "2025-02-25T04:35:48Z", "themostdangerouswritingapp": "2025-02-28T19:32:48Z", "livekit": "2025-02-19T16:24:42Z", "ng-video-lecture": "2023-02-15T20:01:50Z", "koboldcpp": "2025-02-16T18:07:14Z", "chatgpt-ui": "2023-04-27T07:05:23Z", "ComfyUI": "2025-02-19T21:11:24Z", "rc-joystick": "2025-02-25T04:36:13Z", "open-operator": "2025-02-26T14:05:51Z", "llama": "2023-05-02T10:32:54Z", "Open-Assistant": "2023-05-02T20:32:56Z", "agents": "2025-02-19T16:24:17Z", "Alpaca-Turbo": "2023-04-26T04:27:01Z", "n8n": "2025-02-19T16:18:06Z", "JARVIS-AI-ASSISTANT": "2025-02-17T16:20:18Z", "AnimateDiff": "2025-03-10T01:14:00Z", "Auto-GPT": "2023-04-21T00:00:42Z", "midjourney-discord-wrapper": "2025-02-19T17:33:40Z", "Autonomous-Self-Driving-Car-GTA-5": "2025-02-25T04:37:39Z", "Fooocus": "2025-02-18T22:53:22Z", "RVC3-python": "2025-02-25T04:34:01Z", "Auto-GPT-Crypto-Plugin": "2023-04-29T10:02:39Z", "SuperAGI": "2023-07-15T19:48:40Z", "langchain": "2023-04-30T11:26:31Z", "jan": "2025-02-20T14:26:50Z", "personaGPT": "2023-05-01T11:33:40Z", "chatgpt-api-by-browser-script": "2023-04-27T04:28:37Z", "the-afterlife-as-we-knew-it": "2023-03-13T04:30:35Z", "self-operating-computer": "2025-02-26T02:28:44Z", "gutenberg": "2025-02-24T17:27:00Z"};
-const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function site(name){return name==="razaci.github.io"?"https://razaci.github.io/":`https://${USER}.github.io/${encodeURIComponent(name)}/`}
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function fresh(url){
-  const sep=url.includes("?")?"&":"?";
-  return url+sep+"_reload="+Date.now();
-}
-function toast(msg){
-  const el=$("#toast"); el.textContent=msg; el.classList.add("show");
-  clearTimeout(window.__toastTimer); window.__toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
-}
-async function copyText(text,label){
-  try{await navigator.clipboard.writeText(text);toast(label+" copied");}
-  catch(e){
-    const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
-    try{document.execCommand("copy");toast(label+" copied");}catch(_){toast("Copy unavailable");}
-    ta.remove();
+const USER = "razaci";
+const PAGES_REPO = "razaci.github.io";
+let projects = [];
+
+async function loadProjects(){
+  const status = document.getElementById("status");
+  status.textContent = "Loading projects…";
+  try{
+    // GitHub's repository API is paginated, so fetch every page.
+    let page = 1, repos = [];
+    while(true){
+      const url = `https://api.github.com/users/${USER}/repos?per_page=100&page=${page}&sort=updated`;
+      const res = await fetch(url, {headers:{Accept:"application/vnd.github+json"}});
+      if(!res.ok) throw new Error(`GitHub returned ${res.status}`);
+      const batch = await res.json();
+      repos.push(...batch);
+      if(batch.length < 100) break;
+      page++;
+    }
+
+    projects = repos
+      .filter(r => !r.fork && r.name !== PAGES_REPO)
+      .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+    render();
+  }catch(err){
+    status.textContent = "Could not load GitHub projects. " + err.message;
   }
 }
-function draw(){
- let q=$("#q").value.trim().toLowerCase();
- let list=PROJECTS.filter(n=>n.toLowerCase().includes(q));
- const order=$("#sort").value;
- list.sort((a,b)=>order==="az"?a.localeCompare(b):order==="oldest"?Date.parse(CREATED[a])-Date.parse(CREATED[b]):Date.parse(CREATED[b])-Date.parse(CREATED[a]));
- const label={newest:"NEWEST CREATED FIRST",oldest:"OLDEST CREATED FIRST",az:"A–Z"}[order];
- $("#count").textContent=`NEXUS GRID // ${label} // ${list.length} OF ${PROJECTS.length} PROJECT FOLDERS`;
- const glyphs=["◆","✦","⬢","◈","✧","⌁","✺","✹","◇","⬡"];
- $("#grid").innerHTML=list.map(n=>{
-   let h=hash(n), hue=90+(h%120), tilt=((h>>8)%7)-3, glyph=glyphs[(h>>16)%glyphs.length];
-   let u=site(n), repo=`https://github.com/${USER}/${encodeURIComponent(n)}`;
-   let zip=`https://github.com/${USER}/${encodeURIComponent(n)}/archive/refs/heads/main.zip`;
-   return `<div class="card" data-name="${esc(n)}" tabindex="0">
-     <div class="folder" style="--h:${hue};--tilt:${tilt}deg;--glyph:'${glyph}'"></div>
-     <div class="name">${esc(n)}</div>
-     <div class="projectMeta"><div class="line1">CREATED ${new Date(CREATED[n]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric",timeZone:"UTC"})}</div><div class="line2">razaci / ${esc(n)}</div></div>
-     <div class="actions">
-       <a href="${u}" target="_blank" rel="noopener">SITE</a>
-       <a href="${repo}" target="_blank" rel="noopener">GITHUB</a>
-       <a class="play" href="${u}" target="_blank" rel="noopener">▶ PLAY</a>
-       <a href="${repo}/tree/main" target="_blank" rel="noopener">FILES</a>
-       <button class="reload" data-reload="${u}">↻ FRESH</button>
-       <button data-copy="${u}">COPY SITE</button>
-       <button data-copy="${repo}">COPY REPO</button>
-       <a class="zip wide" href="${zip}" target="_blank" rel="noopener">⇩ ZIP (MAIN)</a>
-     </div>
-   </div>`;
- }).join("");
 
- document.querySelectorAll(".card").forEach(card=>{
-   let n=card.dataset.name,u=site(n);
-   card.onclick=e=>{
-     if(e.target.closest("a,button")) return;
-     document.querySelectorAll(".card.selected").forEach(x=>x.classList.remove("selected"));
-     card.classList.add("selected");
-   };
-   card.ondblclick=e=>{if(!e.target.closest("a,button"))window.open(u,"_blank","noopener")};
-   card.onkeydown=e=>{if(e.key==="Enter")window.open(u,"_blank","noopener")};
- });
- document.querySelectorAll("[data-reload]").forEach(b=>b.onclick=()=>window.open(fresh(b.dataset.reload),"_blank","noopener"));
- document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>copyText(b.dataset.copy,b.textContent.includes("REPO")?"Repo URL":"Site URL"));
+function render(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const list = document.getElementById("list");
+  const shown = projects.filter(p => p.name.toLowerCase().includes(q));
+  document.getElementById("status").textContent =
+    `${shown.length} project${shown.length===1?"":"s"}${q?" found":""}`;
+
+  list.innerHTML = shown.map(p => {
+    const play = `https://${USER}.github.io/${encodeURIComponent(p.name)}/`;
+    const repo = p.html_url;
+    return `<div class="project">
+      <span class="folder">📁</span>
+      <span class="name">${escapeHTML(p.name)}</span>
+      <span class="actions">
+        <a href="${play}" target="_blank" rel="noopener">Play</a>
+        <a href="${repo}" target="_blank" rel="noopener">GitHub</a>
+      </span>
+    </div>`;
+  }).join("");
 }
 
-
-
-
-function autoFitCards(){
-  const grid=$("#grid");
-  const w=Math.max(280,grid.getBoundingClientRect().width);
-  let cols;
-  if(w < 560) cols=1;
-  else if(w < 860) cols=2;
-  else if(w < 1180) cols=3;
-  else cols=4;
-
-  const colGap = w < 700 ? 18 : 28;
-  const sidePad = w < 700 ? 12 : 22;
-  const usable = w - sidePad*2 - colGap*(cols-1);
-  const min = Math.max(220, Math.floor(usable/cols));
-
-  grid.style.setProperty("--cardMin", min+"px");
-  grid.style.setProperty("--colGap", colGap+"px");
-  grid.style.setProperty("--rowGap", (w<700?34:54)+"px");
-  grid.style.paddingLeft=sidePad+"px";
-  grid.style.paddingRight=sidePad+"px";
-
-  grid.classList.remove("fitFlash");
-  void grid.offsetWidth;
-  grid.classList.add("fitFlash");
-  toast(`Auto-fit: ${cols} column${cols===1?"":"s"} · natural card height`);
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 }
 
-$("#q").oninput=()=>{draw();setTimeout(autoFitCards,20)};
-$("#sort").onchange=()=>{draw();setTimeout(autoFitCards,20)};
-$("#reloadAll").onclick=()=>{toast("Reloading launcher…");setTimeout(()=>location.reload(),180)};
-$("#autoFit").onclick=autoFitCards;
-window.addEventListener("resize",()=>{clearTimeout(window.__fitTimer);window.__fitTimer=setTimeout(autoFitCards,180)});
-document.addEventListener("keydown",e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="r"){e.preventDefault();$("#reloadAll").click();}
-  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="f"){e.preventDefault();$("#q").focus();$("#q").select();}
-});
-$("#save").onclick=()=>{
- let ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||((navigator.platform==="MacIntel")&&navigator.maxTouchPoints>1);
- $("#helpText").innerHTML=ios?"<p>On iPhone/iPad in Safari: tap <b>Share</b> → <b>Add to Home Screen</b> → <b>Add</b>.</p>":"<p>On Windows press <b>Ctrl + D</b> to bookmark this page. On Mac press <b>⌘ + D</b>.</p>";
- $("#help").style.display="grid";
-};
-$("#close").onclick=()=>$("#help").style.display="none";
-$("#help").onclick=e=>{if(e.target===$("#help"))$("#help").style.display="none"};
-draw();
-setTimeout(autoFitCards,60);
-</script></body></html>
+document.getElementById("reload").onclick = loadProjects;
+document.getElementById("search").oninput = render;
+loadProjects();
+</script>
+</body>
+</html>
